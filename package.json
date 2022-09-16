@@ -1,0 +1,24 @@
+{
+  "name": "news-sites",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tornord/news-sites.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tornord/news-sites/issues"
+  },
+  "homepage": "https://github.com/tornord/news-sites#readme",
+  "dependencies": {
+    "jimp": "^0.16.2",
+    "puppeteer": "^17.1.3"
+  }
+}
