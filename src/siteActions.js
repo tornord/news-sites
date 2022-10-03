@@ -1,3 +1,5 @@
+// https://devhints.io/xpath
+
 const defaultDelay = 2500;
 const defaultPostDelay = 1000;
 const defaultWidth = 820;
@@ -20,9 +22,16 @@ const siteActions = [
     clicks: [
       "//button[contains(@class,'sticky-ad-close-button-press')]",
       "//button[contains(@class,'pn-template__close')]",
+      "//div[@aria-label='Close']",
     ],
-    removes: ["//div[@id='stickyFooterRoot']", "//div[child::div[child::div[@data-tile-name='top_banner']]]"],
+    removes: [
+      "//div[@id='stickyFooterRoot']",
+      "//div[child::div[child::div[@data-tile-name='top_banner']]]",
+      // "//div[contains(@class,'tp-modal')][child::div[child::iframe]]",
+    ],
     width: 768,
+    delay: 3000,
+    retryCount: 3,
   },
   {
     name: "mirror.co.uk",
@@ -41,10 +50,17 @@ const siteActions = [
       "//div[contains(@class,'martech-footer-overlay')]",
       "//div[@id='advert_tmg_ban']",
       "//div[contains(@class,'martech-modal-component-overlay')]",
+      "//div[contains(@class,'subscribe-banner')]",
     ],
     delay: 4000,
   },
-  { name: "thesun.co.uk", removes: ["//div[contains(@class,'billboard')]"], width: 700 },
+  {
+    name: "thesun.co.uk",
+    removes: ["//div[contains(@class,'billboard')]"],
+    styles: [{ xpath: "//div[contains(@class,'sun-header-bg')]", value: { animation: "none" } }],
+    width: 700,
+    postDelay: 3000,
+  },
   {
     name: "theguardian.com",
     removes: [
@@ -77,8 +93,9 @@ const siteActions = [
     name: "nytimes.com",
     clicks: ["//button[text()='Accept']"],
     removes: [
-      "//div[child::div[child::div[@data-testid='StandardAd']]]",
+      "//div[child::div[child::div[child::div[child::div[@data-testid='StandardAd']]]]]",
       // "//div[child::div[child::div[contains(@class,'dfp-ad-top-wrapper')]]]",
+      "//div[child::div[child::div[@data-testid='response-snackbar']]]",
     ],
     // retryCount: 2,
   },
@@ -110,6 +127,11 @@ const siteActions = [
   {
     name: "vox.com",
     clicks: ["//button[@id='privacy-consent-button']", "//button[contains(@class,'c-breaking-news__close')]"],
+    removes: [
+      "//div[@data-concert-ads-name='desktop_leaderboard_variable']",
+      "//div[contains(@aria-labelledby,'heading-podcast-breaker-title')]",
+    ],
+    styles: [{ xpath: "//main[@id='content']", value: { "margin-top": "32px" } }],
   },
   {
     name: "eu.usatoday.com",
@@ -135,6 +157,12 @@ const siteActions = [
     desktopWidth: 1020,
   },
   {
+    name: "nbcnews.com",
+    clicks: ["//button[text()='CONTINUE']"],
+    removes: ["//div[contains(@class,'header-and-footer--banner-ad')]"],
+    desktopWidth: 1000,
+  },
+  {
     name: "hbl.fi",
     clicks: ["//button/p[text()='Jag godkänner']"],
     removes: ["//div[contains(@class,'mosaico-ad__parade')]", "//div[contains(@class,'mosaico-ad__top-parade')]"],
@@ -144,12 +172,14 @@ const siteActions = [
   {
     name: "bt.dk",
     clicks: ["//button[text()='Tillad alle']"],
+    removes: ["//div[contains(@class,'topbanner-desktop')]"],
   },
   {
     name: "ekstrabladet.dk",
-    clicks: ["//button[text()='Tillad alle']"],
+    clicks: ["//button[text()='Tillad alle']", "//div[contains(@class,'adnm-scroll-down-btn')]"],
     removes: ["//div[@id='ebbanner_megaboard_top']"],
     width: 940,
+    retryCount: 2,
   },
   {
     name: "politiken.dk",
@@ -218,7 +248,11 @@ const siteActions = [
       // { xpath: "//div[@class='gd-row'][1]", value: { "max-height": "42px" } },
     ],
   },
-  { name: "lastampa.it", clicks: ["//button[text()='Accetta']"] },
+  {
+    name: "lastampa.it",
+    clicks: ["//button[text()='Accetta']"],
+    removes: ["//div[@id='adv-TopLeft']", "//div[@id='adv-Middle1-hr']"],
+  },
   {
     name: "gazzetta.it",
     clicks: [
@@ -226,7 +260,11 @@ const siteActions = [
       "//div[@id='closeBtnP7']",
       "//p[text()='CHIUDI']",
     ],
-    removes: ["//div[@class='wrapper is-paddingless']", "//div[@id='rcsad_TopLeft_container']"],
+    removes: [
+      "//div[@class='wrapper is-paddingless']",
+      "//div[@id='rcsad_TopLeft_container']",
+      "//div[@id='rcsad_Position1']",
+    ],
     styles: [{ xpath: "//header[@id='l-header']", value: { "margin-bottom": "8px" } }],
     delay: 4000,
     postDelay: 6000,
@@ -272,13 +310,32 @@ const siteActions = [
   },
   {
     name: "t-online.de",
-    removes: [, "//section[@data-testid='InactivityLayer.ModalView']"],
+    removes: [
+      "//section[@data-testid='InactivityLayer.ModalView']",
+      "//div[child::div[child::div[@data-commercial-format='banner']]]",
+    ],
     postDelay: 4000,
+    width: 1048,
   },
   {
     name: "spiegel.de",
     clicks: ["//button[@aria-label='Schließen']"],
-    width: 770,
+    removes: ["//div[@id='wallpaper_1']", "//div[contains(@data-advertisement,'superbanner_2')]"],
+    styles: [
+      { xpath: "//div[child::main[@id='Inhalt']]", value: { background: "white" } },
+      {
+        xpath:
+          "//div[contains(@class,'OffsetContainer')]/div[contains(@class,'md:max-w-md')]/div[contains(@class,'md:h-8')]",
+        value: { background: "white" },
+      },
+      { xpath: "//article/div/div[contains(@class,'md:h-24')]", value: { background: "white" } },
+    ],
+  },
+  {
+    name: "dw.com",
+    clicks: ["//a[contains(@class,'cookie__btn--ok')]"],
+    removes: ["//div[@id='accesstobeta']", "//div[@id='innerFrame']/div[contains(@class,'adsContainer')]"],
+    width: 980,
   },
   {
     name: "aftonbladet.se",
@@ -308,14 +365,22 @@ const siteActions = [
       "//input[@value='Jag förstår']",
       "//div[contains(@class,'dy-lb-close')]",
       "//div[contains(@class,'adnm-scroll-down-btn')]",
+      "//div[contains(@class,'adnm-topscroll-text')]",
     ],
-    removes: ["//div[@data-key='adl--stage']", "//div[@id='panorama_1']"],
+    removes: [
+      "//div[@data-key='adl--stage']",
+      "//div[@id='panorama_1']",
+      "//div[@id='panorama_grid_2']",
+      "//div[contains(@class,'dy_full_width_notifications_container')]",
+      "//div[contains(@class,'adform-adbox-fixed')]",
+    ],
     styles: [{ xpath: "//main[contains(@class,'o-grid__main')]", value: { "margin-top": "16px" } }],
+    retryCount: 2,
   },
   {
     name: "dn.se",
     clicks: ["//button[@id='didomi-notice-agree-button']", "//button[@aria-label='Stäng']"],
-    removes: ["//div[contains(@class,'panorama')]", "//div[@id='rich-media-ads']"],
+    removes: ["//div[contains(@class,'ad--panorama')]", "//div[@id='rich-media-ads']"],
     width: 1024,
   },
   {
@@ -326,18 +391,21 @@ const siteActions = [
       "//button[text()='Godkänn och stäng']",
       "//div[contains(@class,'ad-fullpage__info')]",
     ],
-    removes: ["//div[contains(@class,'panorama')]"],
+    removes: ["//div[contains(@class,'site-header__panorama')]"],
+    retryCount: 2,
     postDelay: 4000,
     width: 1024,
   },
   {
     name: "svd.se",
-    clicks: ["//span[contains(@class,'Notification-close-button')]"],
+    clicks: ["//*[contains(@class,'Notification-close-button')]", "//span[text()='Gå direkt till SvD']"],
     removes: ["//div[contains(@class,'Container--ad Container--ad-panorama')]"],
   },
   {
     name: "sydsvenskan.se",
     clicks: ["//button[@id='didomi-notice-agree-button']", "//span[contains(@class,'ad-welcome__arrow')]"],
+    removes: ["//div[contains(@class,'shelf--panorama')]"],
+    styles: [{ xpath: "(//div[contains(@class,'block--top')])", value: { "padding-top": "0" } }],
   },
   {
     name: "dagensnaringsliv.se",
@@ -353,7 +421,7 @@ const siteActions = [
   },
   {
     name: "realtid.se",
-    clicks: [], //"//span[text()='Accept all']"],
+    clicks: ["//button[contains(@class,'button-hide')]"],
     removes: ["//div[@id='cmpwrapper']", "//div[contains(@class,'realtid-add--header')]"],
   },
   {
@@ -365,6 +433,10 @@ const siteActions = [
       "//div[contains(@class,'tippy-popper')]",
     ],
     retryCount: 2,
+  },
+  {
+    name: "omni.se",
+    removes: ["//div[contains(@class,'pre-banner')]", "//div[contains(@class,'banner--toppanorama')]"],
   },
   {
     name: "dagenssamhalle.se",
@@ -389,6 +461,7 @@ const siteActions = [
       "//div[@data-track-id='layout-item-0.panoramaAd']",
       "//div[contains(@class,'vkmui-FlexVerticalCentered')]",
     ],
+    postDelay: 3000,
     width: 1024,
   },
   {
@@ -401,9 +474,13 @@ const siteActions = [
       "//p[text()='Jag samtycker']",
       "//button[@id='webpushes_pop_cancel']",
       "//div[contains(@class,'jpx-fi-close')]",
+      "//a[@id='btn-close']",
+      "//div[text()='Vidare till hemsidan nyheter24.se']",
     ],
-    delay: 4000,
-    width: 1180,
+    removes: ["//div[contains(@class,'advertisement')][contains(@class,'widescreen')]"],
+    retryCount: 2,
+    width: 980,
+    desktopWidth: 1180,
   },
   {
     name: "dalademokraten.se",
@@ -427,9 +504,18 @@ const siteActions = [
   },
   {
     name: "hallandsposten.se",
-    clicks: ["//input[@value='Jag förstår']"],
-    removes: ["//div[@id='panorama_1']"],
+    clicks: [
+      "//input[@value='Jag förstår']",
+      "//div[@text='Continue to hallandsposten.se']",
+      "//div[contains(@class,'dy-lb-close')]",
+    ],
+    removes: [
+      "//div[@id='panorama_1']",
+      "//div[contains(@class,'adnm-scroll-down-btn')]",
+      "//div[contains(@class,'adnm-html-topscroll-frame-wrapper')]",
+    ],
     styles: [{ xpath: "//main[contains(@class,'o-grid__main')]", value: { "margin-top": "16px" } }],
+    retryCount: 2,
   },
   {
     name: "sweclockers.com",
@@ -460,7 +546,7 @@ const siteActions = [
   {
     name: "nzz.ch",
     clicks: ["//span[text()='Alle Akzeptieren']", "//span[@type='close'][@role='button']"],
-    removes: ["//div[contains(@class,'resor--maxiboard')]"],
+    removes: ["//div[contains(@class,'resor--maxiboard')]", "//div[child::iframe[@data-test-id='banner-frame']]"],
   },
   {
     name: "20min.ch",
@@ -470,7 +556,7 @@ const siteActions = [
   },
   {
     name: "elpais.com",
-    clicks: ["//span[text()='Accept']"],
+    clicks: ["//button[@id='didomi-notice-agree-button']", "//button/span[text()='Accept']"],
     removes: ["//div[contains(@class,'ad-giga-1')]"],
     styles: [
       {
@@ -487,19 +573,31 @@ const siteActions = [
   {
     name: "mbl.is",
     clicks: ["//a[text()='Loka']"],
-    removes: ["//div[contains(@class,'yfirhaus-ad')]"],
+    removes: ["//div[contains(@class,'yfirhaus-ad')]", "//div[contains(@class,'ticker-ad')]"],
     styles: [
       {
         xpath: "//div[contains(@class,'main-header')]",
-        value: { "margin-top": "0", "margin-bottom": "0 !important" },
+        value: { "margin-top": "0" },
+      },
+      {
+        xpath: "//main",
+        value: { "margin-top": "-20px" },
       },
     ],
+    retryCount: 2,
     width: 780,
   },
   {
     name: "krone.at",
     clicks: ["//span[text()='Zustimmen & Weiter']"],
-    removes: ["//div[contains(@class,'c_floating-player')]"],
+    removes: ["//div[contains(@class,'c_floating-player')]", "//div[contains(@class,'c_regio-anmod-overlay')]"],
+    styles: [
+      {
+        xpath: "//div[@data-krn-type='krn-article']",
+        value: { filter: "none" },
+      },
+    ],
+    retryCount: 2,
     width: 955,
   },
   {
@@ -530,6 +628,68 @@ const siteActions = [
     retryCount: 2,
     postDelay: 4000,
   },
+  {
+    name: "heraldsun.com.au",
+    removes: ["//div[contains(@class,'header_ads-container')]"],
+    width: 768,
+    desktopWidth: 1008,
+  },
+  {
+    name: "smh.com.au",
+    clicks: ["//button[text()='Dismiss']"],
+    // removes: ["//div[contains(@class,'header_ads-container')]"],
+    styles: [
+      {
+        xpath: "//header[@data-testid='header']",
+        value: { top: "0" },
+      },
+      {
+        xpath: "//main/div/div[1]",
+        value: { height: "144px" },
+      },
+    ],
+    desktopWidth: 1024,
+  },
+  {
+    name: "theglobeandmail.com",
+    removes: ["//div[@id='fixedpencil-subs']", "//div[contains(@class,'adslot_collapse')]"],
+    styles: [
+      {
+        xpath: "//div[@id='above-top-packages']/div[1]",
+        value: { "margin-top": "0" },
+      },
+    ],
+    width: 980,
+    desktopWidth: 980,
+  },
+  {
+    name: "thestar.com",
+    clicks: ["//span[contains(@class,'alert-banner-container__breaking-close-btn')]"],
+    removes: [
+      "//div[contains(@class,'bcToasterContent')]",
+      "//div[contains(@class,'leaderboard-ad-component')]",
+      "//div[@data-lpos='gamp']",
+    ],
+    delay: 4000,
+    desktopWidth: 1086,
+  },
+  {
+    name: "nzherald.co.nz",
+    clicks: [],
+    removes: ["//div[@id='pd_div']", "//div[contains(@class,'action-bar')]", "//div[@id='premium-toaster']"],
+    desktopWidth: 992,
+  },
+  {
+    name: "timeslive.co.za",
+    clicks: ["//button[contains(.,'Accept cookies')]"],
+    removes: ["//div[child::div[@id='div-gpt-ad-banner-1']]"],
+    desktopWidth: 992,
+  },
+  {
+    name: "synonymer.se",
+    clicks: ["//button[text()='Håller med och fortsätt']"],
+    removes: ["//div[child::div[contains(@class,'HBSynonymerPanorama')]]"],
+  },
 ];
 
 const iframeActions = [
@@ -548,7 +708,10 @@ const iframeActions = [
   { name: "cmp.aftonbladet.se", clicks: ["//button[text()='Godkänn alla cookies']"] },
   { name: "cmp.svd.se", clicks: ["//button[text()='Jag förstår']"] },
   { name: "cmp.omni.se", clicks: ["//button[text()='Okej']"] },
-  { name: "api.tinypass.com", clicks: ["//button[@aria-label='Close']"] },
+  {
+    name: "api.tinypass.com",
+    clicks: ["//button[@aria-label='Close']", "//button[contains(@class,'pn-template__close')]"],
+  },
   { name: "cmpv2.independent.co.uk", clicks: ["//button[text()='AGREE']"] },
   { name: "cmp.dpgmedia.nl", clicks: ["//button[text()='Akkoord']"] },
   { name: "richmedia.cdnservices.net", clicks: "//h1[text()='TILL REALTID']" },

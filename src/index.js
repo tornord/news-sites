@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { join, resolve, extname } = require("path");
 const puppeteer = require("puppeteer");
 
 const { sites } = require("./sites");
@@ -26,6 +27,12 @@ async function takeScreenshot(url, headless, id = null) {
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path, { recursive: true });
   }
+  if (!fs.existsSync(join(path, "done"))) {
+    fs.mkdirSync(join(path, "done"), { recursive: true });
+  }
+  if (!fs.existsSync(join(path, "anomalies"))) {
+    fs.mkdirSync(join(path, "anomalies"), { recursive: true });
+  }
   const name = getShortUrl(url);
   const action = siteActions.find((d) => d.name === name);
   let width = defaultWidth;
@@ -36,10 +43,6 @@ async function takeScreenshot(url, headless, id = null) {
   // const aspectRatio = 16 / 9;
   const height = Math.round(aspectRatio * width); // 820 => 1180
   console.log(url, name, width);
-
-  // https://gist.github.com/tegansnyder/c3aeae4d57768c58247ae6c4e5acd3d1
-  // https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
-  // https://dev.to/sonyarianto/user-agent-string-difference-in-puppeteer-headless-and-headful-4aoh
 
   // console.log(await browser.userAgent());
   // browser.resize({ height, width });
@@ -55,6 +58,7 @@ async function takeScreenshot(url, headless, id = null) {
       "--ignore-certifcate-errors-spki-list",
     ],
     headless,
+    defaultViewport: null,
   });
   try {
     // const page = await browser.newPage();
@@ -64,7 +68,7 @@ async function takeScreenshot(url, headless, id = null) {
     );
 
     await page.setDefaultNavigationTimeout(60000);
-    await page.setViewport({ width, height, deviceScaleFactor: 1 });
+    await page.setViewport({ width, height, deviceScaleFactor: 0.5 });
     // const result = await page.evaluate(() => {
     //   return {
     //     width: document.documentElement.clientWidth,
@@ -189,33 +193,20 @@ async function takeScreenshot(url, headless, id = null) {
           },
           { action: a, t0 }
         );
-        log.map((d) => console.log(d));
+        log.map((d) => console.log(`${shortOrigin} ${d}`));
       }
     }
     await sleep(500);
-    // if (action?.waitForNavigation === true) {
-    //   await page.waitForNavigation({ waitUntil: ["load", "networkidle2"] });
-    // }
-    // if (action?.scroll) {
-    //   const frame = page.frames()?.[0];
-    //   if (frame && !frame.isDetached()) {
-    //     await frame.evaluate(({ scroll }) => {
-    //       if (scroll) {
-    //         window.scroll(...scroll);
-    //       }
-    //     }, action);
-    //   }
-    // }
-
     let postDelay = defaultPostDelay;
     if (action?.postDelay && action.postDelay > defaultPostDelay) {
       postDelay = action.postDelay;
     }
     await sleep(postDelay);
-
     await page.screenshot({
-      path: `${path}/${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpeg`,
+      path: `${path}/${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpg`,
       quality: 80,
+      captureBeyondViewport: false,
+      // fromSurface: false, // headful only
     });
     console.log("done!", Date.now() - t0);
   } catch (error) {
@@ -231,11 +222,45 @@ async function takeScreenshot(url, headless, id = null) {
   }
 }
 
+function getJpgFiles(path) {
+  if (!fs.existsSync(path)) return [];
+  const files = fs.readdirSync(path);
+  const res = [];
+  for (const f of files) {
+    const ext = extname(f);
+    if (!/\.jpg/.test(ext)) continue;
+    res.push(join(path, f));
+  }
+  return res;
+}
+
+async function imageFileStats() {
+  const imagePath = resolve(".", "screenshots");
+  const files = fs.readdirSync(imagePath);
+  const dones = [];
+  const anomalies = [];
+  for (const f of files) {
+    const s = fs.lstatSync(join(imagePath, f));
+    if (!s || !s.isDirectory()) continue;
+    if (!/\d{4}-\d{2}-\d{2}/.test(f)) continue;
+    const fds = getJpgFiles(join(imagePath, f, "done"));
+    dones.push(...fds);
+    const fas = getJpgFiles(join(imagePath, f, "anomalies"));
+    anomalies.push(...fas);
+  }
+  console.log("done:", dones.length);
+  console.log("anomalies:", anomalies.length);
+}
+
 async function main() {
   const arr = sites.map((_, i) => i);
   shuffle(arr);
   for (const i of arr) {
     const { url } = sites[i];
+    const name = getShortUrl(url);
+    const date = today();
+    if (fs.existsSync(`./screenshots/${date}/done/${name}.jpg`)) continue;
+    if (fs.existsSync(`./screenshots/${date}/anomalies/${name}.jpg`)) continue;
     await takeScreenshot(url, true);
   }
 }
@@ -261,14 +286,46 @@ async function withoutActions() {
   }
 }
 
-takeScreenshotAsync("https://www.nyteknik.se/", true, 1);
-// takeScreenshotAsync("https://www.france24.com/en/", true, 1);
-// takeScreenshotAsync("https://www.aftenposten.no/", true, 1);
+takeScreenshotAsync("https://www.nytimes.com/", true, 1);
+
+// (async () => {
+//   await takeScreenshotAsync("https://www.nzz.ch/", true, 1);
+//   await takeScreenshotAsync("https://www.nytimes.com/", true, 1);
+// })();
 
 // withoutActions();
 // main();
+// imageFileStats();
+
+// Documentation
+// https://devdocs.io/puppeteer/
+// https://chromedevtools.github.io/devtools-protocol/tot/Network/
+// https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-captureScreenshot
+
+// https://stackoverflow.com/questions/68059664/puppeteer-page-screenshot-resizes-viewport
+
+// https://gist.github.com/tegansnyder/c3aeae4d57768c58247ae6c4e5acd3d1
+// https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+// https://dev.to/sonyarianto/user-agent-string-difference-in-puppeteer-headless-and-headful-4aoh
 
 // https://screenshotone.com/blog/puppeteer-execution-context-was-destroyed-most-likely-because-of-a-navigation/
 
-//span[text()='Alle Akzeptieren']
-//span[@type='close'][@role='button']
+// https://github.com/puppeteer/puppeteer/issues/511
+// const client = await page.target().createCDPSession();
+// await client.send("Animation.setPlaybackRate", { playbackRate: 0.0 });
+// await client.send("Animation.disable");
+
+// https://stackoverflow.com/questions/61647401/puppeteer-does-not-change-selector
+// await page.addStyleTag({
+//   content: `
+//     *,
+//     *::after,
+//     *::before {
+//         transition-delay: 0s !important;
+//         transition-duration: 0s !important;
+//         animation-delay: -0.0001s !important;
+//         animation-duration: 0s !important;
+//         animation-play-state: paused !important;
+//         caret-color: transparent !important;
+// }`,
+// });

@@ -19,6 +19,7 @@ const sites = [
   { name: "Los Angeles Times", url: "https://www.latimes.com/", country: "US" },
   { name: "CNBC", url: "https://www.cnbc.com/world/", country: "US" },
   { name: "Bloomberg", url: "https://www.bloomberg.com/europe/", country: "US" },
+  { name: "NBC News", url: "https://www.nbcnews.com/", country: "US" },
   // NL
   { name: "Telegraaf", url: "https://telegraaf.nl/", country: "NL" },
   { name: "AD", url: "https://ad.nl/", country: "NL" },
@@ -40,15 +41,16 @@ const sites = [
   { name: "T-Online", url: "https://t-online.de/", country: "DE" },
   { name: "Tagesschau", url: "https://tagesschau.de/", country: "DE" },
   { name: "Der Spiegel", url: "https://spiegel.de/", country: "DE" },
+  { name: "Deutsche Welle", url: "https://www.dw.com/en/", country: "DE" },
   // Schweiz
   { name: "Neue Zürcher Zeitung", url: "https://www.nzz.ch/", country: "CH" },
   { name: "20 min", url: "https://www.20min.ch/", country: "CH" },
   // Österrike
-  { name: "Kronen Zeitung", url: "https://www.krone.at/", country: "IS" },
-  { name: "Heute", url: "https://www.heute.at/", country: "IS" },
+  { name: "Kronen Zeitung", url: "https://www.krone.at/", country: "AT" },
+  { name: "Heute", url: "https://www.heute.at/", country: "AT" },
   // Denmark
   { name: "Ekstrabladet", url: "https://ekstrabladet.dk/", country: "DK" },
-  { name: "bt", url: "https://bt.dk/", country: "DK" },
+  { name: "BT", url: "https://bt.dk/", country: "DK" },
   { name: "Politiken", url: "https://politiken.dk/", country: "DK" },
   // Finland
   { name: "Huvudstabladet", url: "https://hbl.fi/", country: "FI" },
@@ -86,6 +88,16 @@ const sites = [
   { name: "SVT", url: "https://svt.se/", country: "SE" },
   { name: "Dala-Demokraten", url: "https://www.dalademokraten.se/", country: "SE" },
   { name: "Helsingborgs Dagblad", url: "https://www.hd.se/", country: "SE" },
+  // Australien
+  {name: "Herald Sun",url:"https://www.heraldsun.com.au/", country: "AU"},
+  {name: "The Sydney Morning Herald",url:"https://www.smh.com.au/", country: "AU"},
+  // Canada
+  {name: "The Globe and Mail",url:"https://www.theglobeandmail.com/", country: "CA"},
+  {name: "Toronto Star",url:"https://www.thestar.com/", country: "CA"},
+  // New Zeeland
+  {name: "NZ Herald",url:"https://www.nzherald.co.nz/", country: "NZ"},
+  // Sydafrika
+  {name: "Sunday Times",url:"https://www.timeslive.co.za/sunday-times/", country: "ZA"},
   // Thailand
   {name: "Bangkok Post",url:"https://www.bangkokpost.com/", country: "TH"},
   // Qatar
