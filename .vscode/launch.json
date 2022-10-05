@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "puppeteer",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/puppeteer.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "imageServer",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/imageServer.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "convertImages",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/convertImages.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "randomImage",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/randomImage.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+    }
+  ]
+}

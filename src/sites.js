@@ -24,7 +24,7 @@ const sites = [
   { name: "Telegraaf", url: "https://telegraaf.nl/", country: "NL" },
   { name: "AD", url: "https://ad.nl/", country: "NL" },
   // Belgien
-  {name: "Het Laatste Nieuws",url:"https://www.hln.be/", country: "BE"},
+  { name: "Het Laatste Nieuws", url: "https://www.hln.be/", country: "BE" },
   // Frankrike
   { name: "Le Monde", url: "https://lemonde.fr/en/", country: "FR" },
   { name: "Le Figaro", url: "https://lefigaro.fr/", country: "FR" },
@@ -48,6 +48,17 @@ const sites = [
   // Österrike
   { name: "Kronen Zeitung", url: "https://www.krone.at/", country: "AT" },
   { name: "Heute", url: "https://www.heute.at/", country: "AT" },
+  // Grekland
+  { name: "Kathimerini", url: "https://www.ekathimerini.com/", country: "GR" },
+  { name: "Proto Thema", url: "https://www.protothema.gr/", country: "GR" },
+  // Portugal
+  { name: "Público", url: "https://www.publico.pt/", country: "PT" },
+  // Turkiet
+  { name: "Daily Sabah", url: "https://www.dailysabah.com/", country: "TR" },
+  { name: "Hürriyet Daily News", url: "https://www.hurriyetdailynews.com/", country: "TR" },
+  // Ryssland
+  { name: "The Moscow Times", url: "https://www.themoscowtimes.com/", country: "RU" },
+  { name: "Pravda", url: "https://english.pravda.ru/", country: "RU" },
   // Denmark
   { name: "Ekstrabladet", url: "https://ekstrabladet.dk/", country: "DK" },
   { name: "BT", url: "https://bt.dk/", country: "DK" },
@@ -88,20 +99,25 @@ const sites = [
   { name: "SVT", url: "https://svt.se/", country: "SE" },
   { name: "Dala-Demokraten", url: "https://www.dalademokraten.se/", country: "SE" },
   { name: "Helsingborgs Dagblad", url: "https://www.hd.se/", country: "SE" },
+  // Brasilien
+  { name: "Globo", url: "https://www.globo.com/", country: "BR" },
+  // Argentina
+  { name: "La Nation", url: "https://www.lanacion.com.ar/", country: "AR" },
+  // Mexiko
+  { name: "El Universal", url: "https://www.eluniversal.com.mx/", country: "MX" },
   // Australien
-  {name: "Herald Sun",url:"https://www.heraldsun.com.au/", country: "AU"},
-  {name: "The Sydney Morning Herald",url:"https://www.smh.com.au/", country: "AU"},
+  { name: "Herald Sun", url: "https://www.heraldsun.com.au/", country: "AU" },
+  { name: "The Sydney Morning Herald", url: "https://www.smh.com.au/", country: "AU" },
   // Canada
-  {name: "The Globe and Mail",url:"https://www.theglobeandmail.com/", country: "CA"},
-  {name: "Toronto Star",url:"https://www.thestar.com/", country: "CA"},
+  { name: "The Globe and Mail", url: "https://www.theglobeandmail.com/", country: "CA" },
+  { name: "Toronto Star", url: "https://www.thestar.com/", country: "CA" },
   // New Zeeland
-  {name: "NZ Herald",url:"https://www.nzherald.co.nz/", country: "NZ"},
+  { name: "NZ Herald", url: "https://www.nzherald.co.nz/", country: "NZ" },
   // Sydafrika
-  {name: "Sunday Times",url:"https://www.timeslive.co.za/sunday-times/", country: "ZA"},
+  { name: "Sunday Times", url: "https://www.timeslive.co.za/sunday-times/", country: "ZA" },
   // Thailand
-  {name: "Bangkok Post",url:"https://www.bangkokpost.com/", country: "TH"},
+  { name: "Bangkok Post", url: "https://www.bangkokpost.com/", country: "TH" },
   // Qatar
-  {name: "Al Jazeera",url:"https://www.aljazeera.com/", country: "QA"},
-
+  { name: "Al Jazeera", url: "https://www.aljazeera.com/", country: "QA" },
 ];
 module.exports = { sites };

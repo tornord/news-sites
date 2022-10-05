@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { join, resolve, extname } = require("path");
 const puppeteer = require("puppeteer");
+const { createHash } = require("crypto");
 
 const { sites } = require("./sites");
 const { sleep, getShortUrl } = require("./helpers");
@@ -19,6 +20,20 @@ function shuffle(array) {
     array[i] = t;
   }
   return array;
+}
+
+function sha256(str) {
+  return createHash("sha256").update(str).digest("hex");
+}
+
+function getFilename(path, name, id) {
+  let res;
+  while (true) {
+    res = `${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpg`;
+    if (!fs.existsSync(`${path}/done/${res}`) && !fs.existsSync(`${path}/anomalies/${res}`)) break;
+    id = id === null ? 0 : id + 1;
+  }
+  return `${path}/${res}`;
 }
 
 async function takeScreenshot(url, headless, id = null) {
@@ -41,6 +56,7 @@ async function takeScreenshot(url, headless, id = null) {
   }
   const aspectRatio = 59 / 41;
   // const aspectRatio = 16 / 9;
+  // const aspectRatio = 2;
   const height = Math.round(aspectRatio * width); // 820 => 1180
   console.log(url, name, width);
 
@@ -197,17 +213,21 @@ async function takeScreenshot(url, headless, id = null) {
       }
     }
     await sleep(500);
+    if (action?.scrolls) {
+      for (const d of action?.scrolls) {
+        await page.evaluate((y) => {
+          window.scrollTo(0, y);
+        }, d);
+        await sleep(500);
+      }
+    }
     let postDelay = defaultPostDelay;
     if (action?.postDelay && action.postDelay > defaultPostDelay) {
       postDelay = action.postDelay;
     }
     await sleep(postDelay);
-    await page.screenshot({
-      path: `${path}/${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpg`,
-      quality: 80,
-      captureBeyondViewport: false,
-      // fromSurface: false, // headful only
-    });
+    const filename = getFilename(path, name, id);
+    await page.screenshot({ path: filename, quality: 80, captureBeyondViewport: false }); // fromSurface: false, // headful only
     console.log("done!", Date.now() - t0);
   } catch (error) {
     const errorPath = `${path}/errors`;
@@ -257,10 +277,6 @@ async function main() {
   shuffle(arr);
   for (const i of arr) {
     const { url } = sites[i];
-    const name = getShortUrl(url);
-    const date = today();
-    if (fs.existsSync(`./screenshots/${date}/done/${name}.jpg`)) continue;
-    if (fs.existsSync(`./screenshots/${date}/anomalies/${name}.jpg`)) continue;
     await takeScreenshot(url, true);
   }
 }
@@ -286,7 +302,8 @@ async function withoutActions() {
   }
 }
 
-takeScreenshotAsync("https://www.nytimes.com/", true, 1);
+// console.log(sites.length);
+// takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.nzz.ch/", true, 1);
@@ -295,7 +312,7 @@ takeScreenshotAsync("https://www.nytimes.com/", true, 1);
 
 // withoutActions();
 // main();
-// imageFileStats();
+imageFileStats();
 
 // Documentation
 // https://devdocs.io/puppeteer/

@@ -13,8 +13,9 @@ const siteActions = [
       "//div[@id='vjs_video_3']",
       "//div[contains(@class,'billboard-container')]",
     ],
-    delay: 4000,
+    delay: 3500,
     retryCount: 2,
+    scrolls: [200, 0],
     width: 980,
   },
   {
@@ -146,9 +147,10 @@ const siteActions = [
     removes: ["//div[child::div[child::div[contains(@class,'TopBanner-container')]]]"],
     delay: 4000,
     retryCount: 2,
-    postDelay: 2000,
-    width: 1020,
+    postDelay: 2500,
     desktopWidth: 1020,
+    scrolls: [500, 0],
+    width: 1020,
   },
   {
     name: "bloomberg.com",
@@ -271,6 +273,100 @@ const siteActions = [
     retryCount: 2,
     width: 1024,
   },
+  {
+    name: "protothema.gr",
+    clicks: ["//button[text()='ΣΥΜΦΩΝΩ']"],
+    removes: ["//section[@class='section bannerWrp']", "//section[@class='section featImg']"],
+    delay: 4000,
+  },
+  {
+    name: "publico.pt",
+    clicks: ["//button[child::span[text()='CONCORDO']]"],
+    removes: ["//div[contains(@class,'site-message--paywall')]"],
+  },
+  {
+    name: "dailysabah.com",
+    clicks: ["//a[@id='CybotCookiebotDialogBodyButtonAccept']"],
+    removes: ["//div[@class='row'][child::div[child::div[contains(@class,'ad_holder')]]]"],
+    styles: [
+      {
+        xpath: "//div[contains(@class,'sabah-fourth-main')]/div/div[contains(@class,'main_block')]",
+        value: { "margin-bottom": "20px" },
+      },
+      {
+        xpath:
+          "//div[contains(@class,'row')]/div/div[contains(@class,'main_block')][contains(@class,'sabah-four-articles')]",
+        value: { "margin-bottom": "20px" },
+      },
+    ],
+    retryCount: 2,
+    width: 992,
+  },
+  {
+    name: "hurriyetdailynews.com",
+    clicks: ["//p[text()='İzin ver']", "//div[@id='scrollclose']"],
+    removes: [
+      "//div[@class='row'][child::div[child::div[contains(@class,'advMasthead')]]]",
+      "//div[@class='row'][child::div[child::div[contains(@class,'advertorial-interstitial-oop')]]][1]",
+    ],
+    styles: [
+      {
+        xpath: "//body/div[@class='container']",
+        value: { "padding-top": "24px" },
+      },
+    ],
+    delay: 3500,
+    retryCount: 2,
+    width: 992,
+  },
+  {
+    name: "globo.com",
+    clicks: ["//button[text()='PROSSEGUIR']"],
+    removes: ["//div[@id='banner_home1_t_container']"],
+    styles: [
+      {
+        xpath: "//section[contains(@class,'highlight-container')]/div[contains(@class,'area-destaque')]/div[1]",
+        value: { "padding-top": "12px" },
+      },
+    ],
+  },
+  {
+    name: "lanacion.com.ar",
+    clicks: ["//p[text()='ACEPTAR']"],
+    removes: ["//div[@class='container --ads']"],
+  },
+  {
+    name: "eluniversal.com.mx",
+    clicks: ["//button[text()='Acepto']"],
+    removes: ["//div[@id='dfp-top']", "//div[@id='dfp-ad-portada_desk_bottom1-wrapper']"],
+    retryCount: 2,
+    // delay: 4000,
+    // postDelay: 8000,
+    scrolls: [500, 0],
+  },
+  {
+    name: "ekathimerini.com",
+    clicks: ["//button[text()='AGREE']"],
+    removes: [],
+  },
+  {
+    name: "themoscowtimes.com",
+    clicks: ["//button[child::span[text()='AGREE']]"],
+    removes: [
+      "//div[contains(@class,'contribute-modal')]",
+      "//div[contains(@class,'fs-sticky-footer')]",
+      "//div[@y-name='banner']",
+    ],
+    width: 880,
+  },
+  {
+    name: "english.pravda.ru",
+    clicks: ["//p[text()='Consent']", "//button[text()='Accept']", "//button[@class='via-close']"],
+    removes: ["//div[@class='header section']"],
+    delay: 4000,
+    retryCount: 2,
+    width: 1024,
+  },
   { name: "vg.no", removes: ["//div[@id='advert-topboard']"], width: 1010 },
   { name: "dagbladet.no", clicks: ["//button[text()='Jeg forstår']"], removes: ["//div[@id='ad-topbanner1']"] },
   {
@@ -285,7 +381,11 @@ const siteActions = [
   },
   {
     name: "nettavisen.no",
-    clicks: ["//button[text()='OK – jeg forstår']", "//amedia-privacybox-button[@class='lp_privacy_ok']"],
+    clicks: [
+      "//button[text()='OK – jeg forstår']",
+      "//amedia-privacybox-button[@class='lp_privacy_ok']",
+      "//div[contains(@class,'takeover-close')]",
+    ],
     removes: ["//div[contains(@class,'maelstrom-topbanner')]", "//div[@id='front2']", "//amedia-privacybox"],
   },
   {
@@ -398,8 +498,16 @@ const siteActions = [
   },
   {
     name: "svd.se",
-    clicks: ["//*[contains(@class,'Notification-close-button')]", "//span[text()='Gå direkt till SvD']"],
-    removes: ["//div[contains(@class,'Container--ad Container--ad-panorama')]"],
+    clicks: [
+      "//*[contains(@class,'Notification-close-button')]",
+      "//span[text()='Gå direkt till SvD']",
+      "//button[contains(@class,'sch-datacontroller__btn-close')]",
+    ],
+    removes: [
+      "//div[contains(@class,'Container--ad Container--ad-panorama')]",
+      "//div[contains(@class,'Container')]/div[child::div[contains(@class,'above-scroll-ad')]]",
+    ],
+    scrolls: [200, 0],
   },
   {
     name: "sydsvenskan.se",
@@ -422,7 +530,8 @@ const siteActions = [
   {
     name: "realtid.se",
     clicks: ["//button[contains(@class,'button-hide')]"],
-    removes: ["//div[@id='cmpwrapper']", "//div[contains(@class,'realtid-add--header')]"],
+    removes: ["//div[@id='cmpwrapper']", "//div[contains(@class,'realtid-add--header')]", "//triggerbee-widget"],
+    width: 890,
   },
   {
     name: "resume.se",
