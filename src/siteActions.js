@@ -165,6 +165,21 @@ const siteActions = [
     desktopWidth: 1000,
   },
   {
+    name: "newsweek.com",
+    width: 992,
+    desktopWidth: 992,
+  },
+  {
+    name: "reuters.com",
+    clicks: ["//button[text()='Accept All']"],
+    removes: [
+      "//div[contains(@class,'leaderboard__slot-container')]",
+      "//div[@id='ot-sdk-btn-floating']",
+      "//a[@data-testid='Button'][child::span[child::span[text()='Skip to main content']]]",
+    ],
+    desktopWidth: 1024,
+  },
+  {
     name: "hbl.fi",
     clicks: ["//button/p[text()='Jag godkänner']"],
     removes: ["//div[contains(@class,'mosaico-ad__parade')]", "//div[contains(@class,'mosaico-ad__top-parade')]"],
@@ -609,7 +624,7 @@ const siteActions = [
   },
   {
     name: "e24.no",
-    removes: ["//div[@id='ad-topboard']"],
+    removes: ["//div[@id='ad-topboard']", "//div[contains(@class,'sch-datacontroller--footer')]"],
   },
   {
     name: "hallandsposten.se",
@@ -817,10 +832,7 @@ const iframeActions = [
   { name: "cmp.aftonbladet.se", clicks: ["//button[text()='Godkänn alla cookies']"] },
   { name: "cmp.svd.se", clicks: ["//button[text()='Jag förstår']"] },
   { name: "cmp.omni.se", clicks: ["//button[text()='Okej']"] },
-  {
-    name: "api.tinypass.com",
-    clicks: ["//button[@aria-label='Close']", "//button[contains(@class,'pn-template__close')]"],
-  },
+  { name: "api.tinypass.com", clicks: ["//button[@aria-label='Close']", "//button[contains(@class,'pn-template__close')]"], }, // prettier-ignore
   { name: "cmpv2.independent.co.uk", clicks: ["//button[text()='AGREE']"] },
   { name: "cmp.dpgmedia.nl", clicks: ["//button[text()='Akkoord']"] },
   { name: "richmedia.cdnservices.net", clicks: "//h1[text()='TILL REALTID']" },
@@ -828,6 +840,7 @@ const iframeActions = [
   { name: "cmp.hln.be", clicks: ["//button[text()='Akkoord']"] },
   { name: "cmp.dpgmedia.be", clicks: ["//button[text()='Akkoord']"] },
   { name: "sourcepointcmp.bloomberg.com", clicks: ["//button[text()='Yes, I Accept']"] },
+  { name: "cmp-consent-tool.privacymanager.io", clicks: ["//div[child::span[text()='Accept All']]"] },
 ];
 
 if (typeof module !== "undefined") {

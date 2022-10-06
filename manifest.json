@@ -1,0 +1,23 @@
+{
+  "name": "News sites",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "News sites Chrome extension",
+  "permissions": ["tabs", "activeTab", "cookies", "declarativeContent", "storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "chrome-extension/background.js"
+  },
+  "action": {
+    "browser_style": true,
+    "default_popup": "chrome-extension/popup.html",
+    "default_icon": {
+      "128": "chrome-extension/images/icon-128.png"
+    }
+  },
+  "content_scripts": [{ "matches": ["<all_urls>"], "all_frames": true, "js": ["chrome-extension/site.js", "src/siteActions.js"] }],
+  "icons": {
+    "128": "chrome-extension/images/icon-128.png"
+  },
+  "options_page": "chrome-extension/options.html"
+}

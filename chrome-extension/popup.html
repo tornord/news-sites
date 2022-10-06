@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <title>Media websites</title>
+    <style>
+      body {
+        margin: 0;
+        font-size: 12px;
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+        column-count: 2;
+        column-gap: 2px;
+      }
+      li {
+        list-style: none;
+        margin: 0 6px 6px 0;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <ul id="main-menu"></ul>
+      <div id="root"></div>
+    </main>
+    <script src="/popup.js"></script>
+    <script>
+      alert("hello");
+      const rootElement = document.getElementById("root");
+      if (rootElement) {
+        const root = ReactDOM.createRoot(rootElement);
+        // root.render(<AppWrapper />);
+      }
+    </script>
+  </body>
+</html>

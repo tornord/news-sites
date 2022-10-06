@@ -303,16 +303,17 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
+takeScreenshotAsync("https://www.reuters.com/", true, 1);
 
 // (async () => {
-//   await takeScreenshotAsync("https://www.nzz.ch/", true, 1);
-//   await takeScreenshotAsync("https://www.nytimes.com/", true, 1);
+//   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
+//   await takeScreenshotAsync("https://www.nyteknik.se/", true, 1);
+//   await takeScreenshotAsync("https://www.telegraaf.nl/", true, 1);
 // })();
 
 // withoutActions();
 // main();
-imageFileStats();
+// imageFileStats();
 
 // Documentation
 // https://devdocs.io/puppeteer/
