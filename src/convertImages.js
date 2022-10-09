@@ -24,6 +24,10 @@ async function main() {
       if (!fs.existsSync(srcPath)) continue;
       const destPath = join(thumbnailsPath, date, folder);
       const files = fs.readdirSync(srcPath);
+      // if (fs.existsSync(join(srcPath, "images.raw"))) {
+      //   fs.unlinkSync(join(srcPath, "images.raw"));
+      // }
+      // continue;
       for (const f of files) {
         const filename = join(srcPath, f);
         // const s = fs.statSync(filename);

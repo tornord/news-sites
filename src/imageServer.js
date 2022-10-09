@@ -40,7 +40,7 @@ function getImagesByFolder(res, date, folder) {
     const m = f.match(/^([\.a-z0-9-]+)(_\d+)?\.(je?pg|png)$/);
     // if (!m) continue;
     if (!m) {
-      console.log("match");
+      console.log("no match");
     }
     const name = m[1];
     const index = m[2] ? m[2].slice(1) : null;

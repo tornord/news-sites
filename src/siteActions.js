@@ -15,7 +15,8 @@ const siteActions = [
     ],
     delay: 3500,
     retryCount: 2,
-    scrolls: [200, 0],
+    // postDelay: 3000,
+    scrolls: [500, 1000, 0],
     width: 980,
   },
   {
@@ -32,6 +33,7 @@ const siteActions = [
     ],
     width: 768,
     delay: 3000,
+    postDelay: 3000,
     retryCount: 3,
   },
   {
@@ -92,7 +94,7 @@ const siteActions = [
   },
   {
     name: "nytimes.com",
-    clicks: ["//button[text()='Accept']"],
+    clicks: ["//button[text()='Accept']" /*, "//button[@aria-label='next slide']" */],
     removes: [
       "//div[child::div[child::div[child::div[child::div[@data-testid='StandardAd']]]]]",
       // "//div[child::div[child::div[contains(@class,'dfp-ad-top-wrapper')]]]",
@@ -185,7 +187,15 @@ const siteActions = [
     removes: ["//div[contains(@class,'mosaico-ad__parade')]", "//div[contains(@class,'mosaico-ad__top-parade')]"],
     desktopWidth: 1000,
   },
-  { name: "hs.fi", clicks: ["//button[text()='OK']"], removes: ["//div[@data-ad-position='top']"], width: 780 },
+  {
+    name: "hs.fi",
+    clicks: ["//button[text()='OK']"],
+    removes: ["//div[@data-ad-position='top']"],
+    // delay: 4000,
+    // postDelay: 4000,
+    // scrolls: [500, 0],
+    width: 780,
+  },
   {
     name: "bt.dk",
     clicks: ["//button[text()='Tillad alle']"],
@@ -206,7 +216,11 @@ const siteActions = [
       "//div[contains(@class,'adnm-scroll-down-btn')]",
       "//a[text()='Fortryd']",
     ],
-    removes: ["//div[contains(@class,'sticky-bottom')]", "//div[contains(@class,'ad--horseshoe')]"],
+    removes: [
+      "//div[contains(@class,'sticky-bottom')]",
+      "//div[contains(@class,'ad--horseshoe')]",
+      "//anchor[contains(@class,'sleeknote-anchor')]",
+    ],
     delay: 3500,
     retryCount: 2,
     width: 960,
@@ -392,6 +406,7 @@ const siteActions = [
       "//div[@id='push-down-banner']",
       "//div[@id='stripe-wrapper']",
       "//div[child::div[child::article[contains(@class,'brandstudio-premium-content-widget')]]]",
+      "//div[contains(@class,'sch-datacontroller--footer')]",
     ],
   },
   {
@@ -472,6 +487,7 @@ const siteActions = [
       "//button[contains(@class,'tapet-close-button')]",
     ],
     removes: ["//div[@data-slot-name='panorama']"],
+    postDelay: 3000,
     width: 1016,
   },
   {
@@ -496,6 +512,7 @@ const siteActions = [
     name: "dn.se",
     clicks: ["//button[@id='didomi-notice-agree-button']", "//button[@aria-label='Stäng']"],
     removes: ["//div[contains(@class,'ad--panorama')]", "//div[@id='rich-media-ads']"],
+    postDelay: 3000,
     width: 1024,
   },
   {
@@ -521,6 +538,7 @@ const siteActions = [
     removes: [
       "//div[contains(@class,'Container--ad Container--ad-panorama')]",
       "//div[contains(@class,'Container')]/div[child::div[contains(@class,'above-scroll-ad')]]",
+      "//div[contains(@class,'sch-datacontroller--footer')]",
     ],
     scrolls: [200, 0],
   },
@@ -600,6 +618,7 @@ const siteActions = [
       "//div[contains(@class,'jpx-fi-close')]",
       "//a[@id='btn-close']",
       "//div[text()='Vidare till hemsidan nyheter24.se']",
+      "//div[contains(@class,'adnm-scroll-down-btn')]",
     ],
     removes: ["//div[contains(@class,'advertisement')][contains(@class,'widescreen')]"],
     retryCount: 2,

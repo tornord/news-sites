@@ -68,10 +68,12 @@ async function takeScreenshot(url, headless, id = null) {
       "--disable-infobars",
       "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-infobars",
       "--window-position=0,0",
       "--ignore-certifcate-errors",
       "--ignore-certifcate-errors-spki-list",
+      "--disable-web-security",
+      "--disable-features=IsolateOrigins",
+      "--disable-site-isolation-trials",
     ],
     headless,
     defaultViewport: null,
@@ -82,7 +84,12 @@ async function takeScreenshot(url, headless, id = null) {
     await page.setUserAgent(
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
     );
-
+    await page.setExtraHTTPHeaders({
+      // "sec-ch-ua": '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
+      // "sec-ch-ua-platform": "macOS",
+      // "sec-ch-ua-mobile": "?0",
+      // pragma: "no-cache",
+    });
     await page.setDefaultNavigationTimeout(60000);
     await page.setViewport({ width, height, deviceScaleFactor: 0.5 });
     // const result = await page.evaluate(() => {
@@ -303,7 +310,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-takeScreenshotAsync("https://www.reuters.com/", true, 1);
+// takeScreenshotAsync("https://www.dn.se/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -312,7 +319,7 @@ takeScreenshotAsync("https://www.reuters.com/", true, 1);
 // })();
 
 // withoutActions();
-// main();
+main();
 // imageFileStats();
 
 // Documentation
@@ -347,3 +354,30 @@ takeScreenshotAsync("https://www.reuters.com/", true, 1);
 //         caret-color: transparent !important;
 // }`,
 // });
+
+// https://stackoverflow.com/questions/52129649/puppeteer-cors-mistake
+// https://splunktool.com/puppeteer-cors-mistake
+// --disable-web-security
+// --disable-features=IsolateOrigins
+// --disable-site-isolation-trials
+
+// https://stackoverflow.com/questions/63061911/how-do-i-set-multiple-custom-http-headers-in-puppeteer
+// await page.setRequestInterception(true);
+// page.on("request", (request) => {
+//   const headers = request.headers();
+//   headers["X-Just-Must-Be-Request-In-All-Requests"] = "1";
+//   request.continue({
+//     headers,
+//   });
+// });
+//
+// await page.setExtraHTTPHeaders({
+//   "user-agent":
+//     "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36",
+//   "upgrade-insecure-requests": "1",
+//   accept:
+//     "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+//   "accept-encoding": "gzip, deflate, br",
+//   "accept-language": "en-US,en;q=0.9,en;q=0.8",
+// });
+// await page.goto("...");
