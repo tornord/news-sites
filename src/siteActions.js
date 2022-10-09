@@ -229,6 +229,7 @@ const siteActions = [
   {
     name: "lemonde.fr",
     clicks: ["//button[text()='Accept']", "//button[contains(.,'Accepter et continuer')]"],
+    removes: ["//div[@id='banniere_haute']"],
     width: 770,
   },
   {
@@ -300,6 +301,7 @@ const siteActions = [
     delay: 4000,
     postDelay: 6000,
     retryCount: 2,
+    scrolls: [1000, 0],
     width: 1024,
   },
   {
@@ -545,7 +547,7 @@ const siteActions = [
   {
     name: "sydsvenskan.se",
     clicks: ["//button[@id='didomi-notice-agree-button']", "//span[contains(@class,'ad-welcome__arrow')]"],
-    removes: ["//div[contains(@class,'shelf--panorama')]"],
+    removes: ["//div[contains(@class,'shelf--panorama')]", "//header/div[contains(@class,'top-bar')]"],
     styles: [{ xpath: "(//div[contains(@class,'block--top')])", value: { "padding-top": "0" } }],
   },
   {
@@ -627,16 +629,24 @@ const siteActions = [
   },
   {
     name: "dalademokraten.se",
-    clicks: ["//button[@id='didomi-notice-agree-button']"], //,"//button[contains(@class,'button-hide')]"],
-    removes: ["//div[contains(@class,'shelf--panorama')]", "//triggerbee-widget"],
+    clicks: ["//button[@id='didomi-notice-agree-button']", "//button[contains(@class,'ad-welcome__header')]"], //,"//button[contains(@class,'button-hide')]"],
+    removes: [
+      "//div[contains(@class,'shelf--panorama')]",
+      "//triggerbee-widget",
+      "//header/div[contains(@class,'top-bar')]",
+    ],
     styles: [{ xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } }],
     width: 1000,
     desktopWidth: 1000,
   },
   {
     name: "hd.se",
-    clicks: ["//button[@id='didomi-notice-agree-button']"],
-    removes: ["//div[contains(@class,'shelf--panorama')]", "//triggerbee-widget"],
+    clicks: ["//button[@id='didomi-notice-agree-button']", "//button[contains(@class,'ad-welcome__header')]"],
+    removes: [
+      "//div[contains(@class,'shelf--panorama')]",
+      "//triggerbee-widget",
+      "//header/div[contains(@class,'top-bar')]",
+    ],
     styles: [{ xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } }],
     width: 1000,
     desktopWidth: 1000,

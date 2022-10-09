@@ -4,6 +4,8 @@ const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 
+const { shuffle } = require("./helpers");
+
 const dateToString = (d) => d.toISOString().slice(0, 10);
 const today = () => dateToString(new Date());
 const MS_PER_DAY = 24 * 3600 * 1000;
@@ -11,7 +13,7 @@ const MS_PER_DAY = 24 * 3600 * 1000;
 const IMAGE_PATH = resolve(".", "screenshots");
 // const IMAGE_PATH = resolve(".", "thumbnails");
 
-function getImages(name, type, date) {
+function getImages(name, type, date, count) {
   const files = fs.readdirSync(join(IMAGE_PATH));
   let res = [];
   for (const f of files) {
@@ -22,7 +24,11 @@ function getImages(name, type, date) {
   if (name || type || date) {
     res = res.filter((d) => (!name || d.name === name) && (!type || d.type === type) && (!date || d.date === date));
   }
-  res.sort((d1, d2) => d1.changeTimestamp - d2.changeTimestamp);
+  //res.sort((d1, d2) => d1.changeTimestamp - d2.changeTimestamp);
+  if (count > 0) {
+    res = res.slice(0, count);
+  }
+  shuffle(res);
   return res;
 }
 
@@ -44,9 +50,6 @@ function getImagesByFolder(res, date, folder) {
     }
     const name = m[1];
     const index = m[2] ? m[2].slice(1) : null;
-    if (index !== null) {
-      console.log("index");
-    }
     res.push({ url: `./images/${date}/${folder}/${f}`, changeTimestamp, date, type: folder, name, index });
   }
 }
@@ -58,7 +61,8 @@ app.get("/", (req, res) => {
   const name = req.query.name ?? null;
   const type = req.query.type ?? null;
   const date = req.query.date ?? null;
-  res.send(getImages(name, type, date));
+  const count = req.query.count ?? 64;
+  res.send(getImages(name, type, date, count));
 });
 
 app.use("/images", express.static(IMAGE_PATH));

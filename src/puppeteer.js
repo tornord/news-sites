@@ -4,23 +4,11 @@ const puppeteer = require("puppeteer");
 const { createHash } = require("crypto");
 
 const { sites } = require("./sites");
-const { sleep, getShortUrl } = require("./helpers");
+const { sleep, getShortUrl, shuffle } = require("./helpers");
 const { siteActions, iframeActions, defaultWidth, defaultDelay, defaultPostDelay } = require("./siteActions");
 
 const dateToString = (d) => d.toISOString().slice(0, 10);
 const today = () => dateToString(new Date());
-
-function shuffle(array) {
-  const n = array.length;
-  for (let i = 0; i < n - 1; i++) {
-    const r = Math.floor(Math.random() * (n - 1 - i));
-    const i1 = i + 1 + r;
-    const t = array[i1];
-    array[i1] = array[i];
-    array[i] = t;
-  }
-  return array;
-}
 
 function sha256(str) {
   return createHash("sha256").update(str).digest("hex");
@@ -310,7 +298,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.dn.se/", true, 1);
+takeScreenshotAsync("https://www.gazzetta.it/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -319,7 +307,7 @@ async function withoutActions() {
 // })();
 
 // withoutActions();
-main();
+// main();
 // imageFileStats();
 
 // Documentation
