@@ -298,7 +298,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-takeScreenshotAsync("https://www.hln.be/", false, 1);
+// takeScreenshotAsync("https://www.bloomberg.com/europe", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -307,7 +307,7 @@ takeScreenshotAsync("https://www.hln.be/", false, 1);
 // })();
 
 // withoutActions();
-// main();
+main();
 // imageFileStats();
 
 // Documentation

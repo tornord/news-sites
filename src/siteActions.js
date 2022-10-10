@@ -82,7 +82,11 @@ const siteActions = [
     width: 820,
     desktopWidth: 1024,
   },
-  { name: "bbc.com", clicks: ["//button/p[text()='Consent']", "//button/span[text()='Yes, I agree']"] },
+  {
+    name: "bbc.com",
+    clicks: ["//button/p[text()='Consent']", "//button/span[text()='Yes, I agree']"],
+    removes: ["//section[contains(@class,'module--leaderboard')]"],
+  },
   {
     name: "washingtonpost.com",
     clicks: ["//button[text()='I accept']", "//button[text()='Got it']", "//button[@aria-label='close']"],
@@ -403,7 +407,7 @@ const siteActions = [
   {
     name: "english.pravda.ru",
     clicks: ["//p[text()='Consent']", "//button[text()='Accept']", "//button[@class='via-close']"],
-    removes: ["//div[@class='header section']","//div[contains(@class,'via-slider')]"],
+    removes: ["//div[@class='header section']", "//div[contains(@class,'via-slider')]"],
     delay: 4000,
     retryCount: 2,
     width: 1024,
@@ -555,12 +559,6 @@ const siteActions = [
     scrolls: [200, 0],
   },
   {
-    name: "sydsvenskan.se",
-    clicks: ["//button[@id='didomi-notice-agree-button']", "//span[contains(@class,'ad-welcome__arrow')]"],
-    removes: ["//div[contains(@class,'shelf--panorama')]", "//header/div[contains(@class,'top-bar')]"],
-    styles: [{ xpath: "(//div[contains(@class,'block--top')])", value: { "padding-top": "0" } }],
-  },
-  {
     name: "dagensnaringsliv.se",
     clicks: ["//button[text()='Jag godkänner']"],
   },
@@ -638,6 +636,19 @@ const siteActions = [
     desktopWidth: 1180,
   },
   {
+    name: "sydsvenskan.se",
+    clicks: ["//button[@id='didomi-notice-agree-button']", "//button[contains(@class,'ad-welcome__header')]"],
+    removes: [
+      "//div[contains(@class,'shelf--panorama')]",
+      "//triggerbee-widget",
+      "//header/div[contains(@class,'top-bar')]",
+    ],
+    styles: [
+      { xpath: "(//div[contains(@class,'block--top')])", value: { "padding-top": "0" } },
+      { xpath: "//article[contains(@class,'teaser--xxl')]", value: { "margin-bottom": "2.0rem" } },
+    ],
+  },
+  {
     name: "dalademokraten.se",
     clicks: ["//button[@id='didomi-notice-agree-button']", "//button[contains(@class,'ad-welcome__header')]"], //,"//button[contains(@class,'button-hide')]"],
     removes: [
@@ -645,7 +656,10 @@ const siteActions = [
       "//triggerbee-widget",
       "//header/div[contains(@class,'top-bar')]",
     ],
-    styles: [{ xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } }],
+    styles: [
+      { xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } },
+      { xpath: "//article[contains(@class,'teaser--xxl')]", value: { "margin-bottom": "2.0rem" } },
+    ],
     width: 1000,
     desktopWidth: 1000,
   },
@@ -657,7 +671,25 @@ const siteActions = [
       "//triggerbee-widget",
       "//header/div[contains(@class,'top-bar')]",
     ],
-    styles: [{ xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } }],
+    styles: [
+      { xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } },
+      { xpath: "//article[contains(@class,'teaser--xxl')]", value: { "margin-bottom": "2.0rem" } },
+    ],
+    width: 1000,
+    desktopWidth: 1000,
+  },
+  {
+    name: "st.nu",
+    clicks: ["//button[@id='didomi-notice-agree-button']", "//button[contains(@class,'ad-welcome__header')]"],
+    removes: [
+      "//div[contains(@class,'shelf--panorama')]",
+      "//triggerbee-widget",
+      "//header/div[contains(@class,'top-bar')]",
+    ],
+    styles: [
+      { xpath: "//div[contains(@class,'block--top')]", value: { "padding-top": "0" } },
+      { xpath: "//article[contains(@class,'teaser--xxl')]", value: { "margin-bottom": "2.0rem" } },
+    ],
     width: 1000,
     desktopWidth: 1000,
   },
