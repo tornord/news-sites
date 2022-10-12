@@ -42,10 +42,10 @@ async function takeScreenshot(url, headless, id = null) {
   if (action && action.width) {
     width = action.width;
   }
-  const aspectRatio = 59 / 41;
+  const aspectRatio = 41 / 59;
   // const aspectRatio = 16 / 9;
   // const aspectRatio = 2;
-  const height = Math.round(aspectRatio * width); // 820 => 1180
+  const height = Math.round(width / aspectRatio); // 820 => 1180
   console.log(url, name, width);
 
   // console.log(await browser.userAgent());
@@ -57,11 +57,12 @@ async function takeScreenshot(url, headless, id = null) {
       "--no-sandbox",
       "--disable-setuid-sandbox",
       "--window-position=0,0",
-      "--ignore-certifcate-errors",
-      "--ignore-certifcate-errors-spki-list",
+      "--ignore-certificate-errors",
+      "--ignore-certificate-errors-skip-list",
       "--disable-web-security",
       "--disable-features=IsolateOrigins",
       "--disable-site-isolation-trials",
+      "--disable-notifications",
     ],
     headless,
     defaultViewport: null,
@@ -69,6 +70,14 @@ async function takeScreenshot(url, headless, id = null) {
   try {
     // const page = await browser.newPage();
     const [page] = await browser.pages();
+    // await page.setRequestInterception(true);
+    // page.on("request", (request) => {
+    //   const headers = request.headers();
+    //   // headers["X-Just-Must-Be-Request-In-All-Requests"] = "1";
+    //   // console.log("request", request.resourceType());
+    //   request.continue({ headers });
+    // });
+
     await page.setUserAgent(
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
     );
@@ -298,7 +307,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.bloomberg.com/europe", true, 1);
+// takeScreenshotAsync("https://www.realtid.se/", false, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -369,3 +378,21 @@ main();
 //   "accept-language": "en-US,en;q=0.9,en;q=0.8",
 // });
 // await page.goto("...");
+
+// Page.evaluateOnNewDocument
+// https://pptr.dev/api/puppeteer.page.evaluateOnNewDocument
+
+// load-extension
+// const browser = await puppeteer.launch({
+//   headless: 'chrome',
+//   args: [
+//     `--disable-extensions-except=${pathToExtension}`,
+//     `--load-extension=${pathToExtension}`,
+//   ],
+// });
+
+// https://cri.dev/posts/2020-04-04-Full-list-of-Chromium-Puppeteer-flags/
+// https://github.com/christian-fei/mega-scraper/blob/master/lib/browser/get-puppeteer-options.js
+
+// Links Awesome Puppeteer
+// https://github.com/transitive-bullshit/awesome-puppeteer
