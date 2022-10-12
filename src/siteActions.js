@@ -88,6 +88,19 @@ const siteActions = [
     removes: ["//section[contains(@class,'module--leaderboard')]"],
   },
   {
+    name: "news.sky.com",
+    clicks: [],
+    removes: [
+      "//div[contains(@class,'sdc-site-au__leaderboard')]",
+      "//div[contains(@class,'sdc-site-au')][@data-ad-format='leaderboard']",
+    ],
+  },
+  {
+    name: "politico.eu",
+    clicks: [],
+    removes: ["//div[contains(@class,'ad__leaderboard')]", "//div[@class='block-collection has-first-leaderboard']"],
+  },
+  {
     name: "washingtonpost.com",
     clicks: ["//button[text()='I accept']", "//button[text()='Got it']", "//button[@aria-label='close']"],
     removes: ["//wp-ad[@id='slug_leaderboard_1']", "//div[contains(@class,'adslot-c')]"], //, "//div[contains(@class,'video-live-bar')]"],
@@ -892,7 +905,7 @@ const iframeActions = [
   { name: "accounts.google.com", clicks: ["//div[@aria-label='Logga in med Google']//div[@id='close']"] },
   { name: "cmp.cdn.thesun.co.uk", clicks: ["//button[text()='Fine By Me!']"] },
   { name: "sourcepoint.theguardian.com", clicks: ["//button[text()=\"Yes, I’m happy\"]"] }, // prettier-ignore
-  { name: "cdn.privacy-mgmt.com", clicks: ["//button[text()='YES, I AGREE']", "//button[text()='OK']"] },
+  { name: "cdn.privacy-mgmt.com", clicks: ["//button[text()='YES, I AGREE']", "//button[text()='OK']", "//button[text()='Accept all']"], }, // prettier-ignore
   { name: "cmp.ad.nl", clicks: ["//button[text()='Akkoord']"] },
   { name: "cmp.vg.no", clicks: ["//button[text()='Jeg forstår']"] },
   { name: "cmp.aftenposten.no", clicks: ["//button[text()='Jeg forstår']"] },
@@ -912,6 +925,7 @@ const iframeActions = [
   { name: "cmp.dpgmedia.be", clicks: ["//button[text()='Akkoord']"] },
   { name: "sourcepointcmp.bloomberg.com", clicks: ["//button[text()='Yes, I Accept']"] },
   { name: "cmp-consent-tool.privacymanager.io", clicks: ["//div[child::span[text()='Accept All']]"] },
+  { name: "cmp.politico.eu", clicks: ["//button[text()='Agree']"] },
 ];
 
 if (typeof module !== "undefined") {

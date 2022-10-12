@@ -307,7 +307,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.realtid.se/", false, 1);
+// takeScreenshotAsync("https://news.sky.com/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -316,7 +316,7 @@ async function withoutActions() {
 // })();
 
 // withoutActions();
-main();
+// main();
 // imageFileStats();
 
 // Documentation
