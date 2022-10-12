@@ -106,3 +106,5 @@ dist
 screenshots
 thumbnails
 .DS_Store
+
+terraform/
