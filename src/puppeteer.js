@@ -307,7 +307,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://news.sky.com/", true, 1);
+takeScreenshotAsync("https://www.privataaffarer.se/", false, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);

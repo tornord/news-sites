@@ -84,7 +84,11 @@ const siteActions = [
   },
   {
     name: "bbc.com",
-    clicks: ["//button/p[text()='Consent']", "//button/span[text()='Yes, I agree']"],
+    clicks: [
+      "//button/p[text()='Consent']",
+      "//button/span[text()='Yes, I agree']",
+      "//button[contains(@class,'tp-close')]",
+    ],
     removes: ["//section[contains(@class,'module--leaderboard')]"],
   },
   {
