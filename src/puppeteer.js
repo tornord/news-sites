@@ -2,6 +2,7 @@ const fs = require("fs");
 const { join, resolve, extname } = require("path");
 const puppeteer = require("puppeteer");
 const { createHash } = require("crypto");
+const PromisePool = require("@supercharge/promise-pool").default;
 
 const { sites } = require("./sites");
 const { sleep, getShortUrl, shuffle } = require("./helpers");
@@ -71,11 +72,14 @@ async function takeScreenshot(url, headless, id = null) {
     // const page = await browser.newPage();
     const [page] = await browser.pages();
     // await page.setRequestInterception(true);
-    // page.on("request", (request) => {
-    //   const headers = request.headers();
+    // page.on("request", (req) => {
+    //   const headers = req.headers();
     //   // headers["X-Just-Must-Be-Request-In-All-Requests"] = "1";
-    //   // console.log("request", request.resourceType());
-    //   request.continue({ headers });
+    //   // console.log("request", req.url(), req.resourceType());
+    //   req.continue({ headers });
+    // });
+    // page.on("response", async (resp) => {
+    //   console.log("response", resp.url(), resp.status());
     // });
 
     await page.setUserAgent(
@@ -100,7 +104,10 @@ async function takeScreenshot(url, headless, id = null) {
     if (action && action.cookies && action.cookies.length > 0) {
       await page.setCookie(...action.cookies);
     }
-    await page.goto(url, { waitUntil: "domcontentloaded" });
+    // page.on("framenavigated", (frame) => {
+    //   console.log("Puppeteer nav frame: ", frame.url(), frame.parentFrame() === null);
+    // });
+    await page.goto(url, { waitUntil: "domcontentloaded" }); // "networkidle0"
     const t0 = Date.now();
     let delay = defaultDelay;
     if (action?.delay > defaultDelay) {
@@ -279,10 +286,16 @@ async function imageFileStats() {
 async function main() {
   const arr = sites.map((_, i) => i);
   shuffle(arr);
-  for (const i of arr) {
-    const { url } = sites[i];
-    await takeScreenshot(url, true);
-  }
+  await PromisePool.for(arr)
+    .withConcurrency(2)
+    .process(async (i) => {
+      const { url } = sites[i];
+      await takeScreenshot(url, true);
+    });
+  // for (const i of arr) {
+  //   const { url } = sites[i];
+  //   await takeScreenshot(url, true);
+  // }
 }
 
 async function takeScreenshotAsync(url, headless, count = 1) {
@@ -307,7 +320,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-takeScreenshotAsync("https://www.privataaffarer.se/", false, 1);
+// takeScreenshotAsync("https://www.gazzetta.it/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -316,7 +329,7 @@ takeScreenshotAsync("https://www.privataaffarer.se/", false, 1);
 // })();
 
 // withoutActions();
-// main();
+main();
 // imageFileStats();
 
 // Documentation
