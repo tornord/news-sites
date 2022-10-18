@@ -287,7 +287,7 @@ async function main() {
   const arr = sites.map((_, i) => i);
   shuffle(arr);
   await PromisePool.for(arr)
-    .withConcurrency(2)
+    .withConcurrency(1)
     .process(async (i) => {
       const { url } = sites[i];
       await takeScreenshot(url, true);
