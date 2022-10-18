@@ -284,6 +284,7 @@ const siteActions = [
       "//iframe[@id='_cpmt-iframe'] | //button[text()='Agree']",
       "//button[@aria-label='Close']",
       "//div[@id='introDfp_close']",
+      "//button[@id='privacy-cor-wall-accept']",
     ],
     removes: ["//div[@id='rcsad_Position7']", "//div[@id='rcsad_TopLeft_wrapper']"],
     styles: [{ xpath: "//header[@id='l-header']", value: { "margin-bottom": "0" } }],
