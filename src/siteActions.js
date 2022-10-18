@@ -203,6 +203,13 @@ const siteActions = [
     desktopWidth: 1024,
   },
   {
+    name: "vanityfair.com",
+    clicks: [],
+    removes: ["//div[@id='onetrust-consent-sdk']"],
+    width: 1024,
+    desktopWidth: 1024,
+  },
+  {
     name: "hbl.fi",
     clicks: ["//button/p[text()='Jag godkänner']"],
     removes: ["//div[contains(@class,'mosaico-ad__parade')]", "//div[contains(@class,'mosaico-ad__top-parade')]"],
@@ -284,6 +291,7 @@ const siteActions = [
       "//iframe[@id='_cpmt-iframe'] | //button[text()='Agree']",
       "//button[@aria-label='Close']",
       "//div[@id='introDfp_close']",
+      "//button[@id='privacy-cor-wall-accept']",
     ],
     removes: ["//div[@id='rcsad_Position7']", "//div[@id='rcsad_TopLeft_wrapper']"],
     styles: [{ xpath: "//header[@id='l-header']", value: { "margin-bottom": "0" } }],

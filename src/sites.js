@@ -23,7 +23,8 @@ const sites = [
   { name: "NBC News", url: "https://www.nbcnews.com/", country: "US" },
   { name: "Newsweek", url: "https://www.newsweek.com/", country: "US" },
   { name: "Reuters", url: "https://www.reuters.com/", country: "US" },
-  {name:"Politico",url: "https://www.politico.eu/", country: "US"},
+  { name: "Politico", url: "https://www.politico.eu/", country: "US" },
+  { name: "Vanity Fair", url: "https://www.vanityfair.com/", country: "US" },
   // NL
   { name: "Telegraaf", url: "https://telegraaf.nl/", country: "NL" },
   { name: "AD", url: "https://ad.nl/", country: "NL" },
