@@ -47,6 +47,7 @@ const sites = [
   { name: "Tagesschau", url: "https://tagesschau.de/", country: "DE" },
   { name: "Der Spiegel", url: "https://spiegel.de/", country: "DE" },
   { name: "Deutsche Welle", url: "https://www.dw.com/en/", country: "DE" },
+  { name: "Tagesspiegel", url: "https://www.tagesspiegel.de/", country: "DE" },
   // Schweiz
   { name: "Neue Zürcher Zeitung", url: "https://www.nzz.ch/", country: "CH" },
   { name: "20 min", url: "https://www.20min.ch/", country: "CH" },

@@ -279,6 +279,7 @@ async function imageFileStats() {
     const fas = getJpgFiles(join(imagePath, f, "anomalies"));
     anomalies.push(...fas);
   }
+  console.log("titels:", sites.length);
   console.log("done:", dones.length);
   console.log("anomalies:", anomalies.length);
 }
@@ -320,7 +321,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.gazzetta.it/", true, 1);
+// takeScreenshotAsync("https://www.theguardian.com/international", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);

@@ -205,7 +205,7 @@ const siteActions = [
   {
     name: "vanityfair.com",
     clicks: [],
-    removes: ["//div[@id='onetrust-consent-sdk']"],
+    removes: ["//div[@id='onetrust-consent-sdk']", "//div[contains(@class,'ad-stickyhero')]"],
     width: 1024,
     desktopWidth: 1024,
   },
@@ -509,6 +509,11 @@ const siteActions = [
     width: 980,
   },
   {
+    name: "tagesspiegel.de",
+    clicks: [],
+    removes: ["//div[child::div[@id='iqadtile1']]"],
+  },
+  {
     name: "aftonbladet.se",
     clicks: [
       "//button/img[@alt='Stäng']",
@@ -728,6 +733,7 @@ const siteActions = [
       "//input[@value='Jag förstår']",
       "//div[@text='Continue to hallandsposten.se']",
       "//div[contains(@class,'dy-lb-close')]",
+      "//div[@id='closeBtn']",
     ],
     removes: [
       "//div[@id='panorama_1']",
@@ -938,6 +944,7 @@ const iframeActions = [
   { name: "sourcepointcmp.bloomberg.com", clicks: ["//button[text()='Yes, I Accept']"] },
   { name: "cmp-consent-tool.privacymanager.io", clicks: ["//div[child::span[text()='Accept All']]"] },
   { name: "cmp.politico.eu", clicks: ["//button[text()='Agree']"] },
+  { name: "cmp-sp.tagesspiegel.de", clicks: ["//button[text()='Alle akzeptieren']"] },
 ];
 
 if (typeof module !== "undefined") {
