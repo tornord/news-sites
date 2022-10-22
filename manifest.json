@@ -15,7 +15,13 @@
       "128": "chrome-extension/images/icon-128.png"
     }
   },
-  "content_scripts": [{ "matches": ["<all_urls>"], "all_frames": true, "js": ["chrome-extension/site.js", "src/siteActions.js"] }],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["chrome-extension/site.js", "packages/puppeteer/src/siteActions.js"]
+    }
+  ],
   "icons": {
     "128": "chrome-extension/images/icon-128.png"
   },

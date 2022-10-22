@@ -10,8 +10,7 @@ const dateToString = (d) => d.toISOString().slice(0, 10);
 const today = () => dateToString(new Date());
 const MS_PER_DAY = 24 * 3600 * 1000;
 
-const IMAGE_PATH = resolve(".", "screenshots");
-// const IMAGE_PATH = resolve(".", "thumbnails");
+const IMAGE_PATH = resolve(".", "..", "..", "screenshots");
 
 function getImages(name, type, date, count) {
   const files = fs.readdirSync(join(IMAGE_PATH));

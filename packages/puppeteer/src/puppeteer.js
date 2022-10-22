@@ -226,6 +226,7 @@ async function takeScreenshot(url, headless, id = null) {
     await sleep(500);
     if (action?.scrolls) {
       for (const d of action?.scrolls) {
+        console.log(`scrollTo ${d}`, Date.now() - t0);
         await page.evaluate((y) => {
           window.scrollTo(0, y);
         }, d);
@@ -321,7 +322,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.theguardian.com/international", true, 1);
+takeScreenshotAsync("https://www.dw.com/en/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -330,7 +331,7 @@ async function withoutActions() {
 // })();
 
 // withoutActions();
-main();
+// main();
 // imageFileStats();
 
 // Documentation

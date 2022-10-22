@@ -233,8 +233,9 @@ const siteActions = [
     name: "ekstrabladet.dk",
     clicks: ["//button[text()='Tillad alle']", "//div[contains(@class,'adnm-scroll-down-btn')]"],
     removes: ["//div[@id='ebbanner_megaboard_top']"],
-    width: 940,
     retryCount: 2,
+    scrolls: [500, 1000, 0],
+    width: 940,
   },
   {
     name: "politiken.dk",
@@ -504,8 +505,14 @@ const siteActions = [
   },
   {
     name: "dw.com",
-    clicks: ["//a[contains(@class,'cookie__btn--ok')]"],
-    removes: ["//div[@id='accesstobeta']", "//div[@id='innerFrame']/div[contains(@class,'adsContainer')]"],
+    clicks: ["//a[contains(@class,'cookie__btn--ok')]", "//div[@role='button'][child::span[text()='OK']]"],
+    removes: [
+      "//div[@id='accesstobeta']",
+      "//div[@id='innerFrame']/div[contains(@class,'adsContainer')]",
+      "//div[contains(@class,'advertisement')][child::div[@id='dw_t_overview_top']]",
+      "//div[child::div[child::span[text()='Welcome to the new DW website!']]]",
+    ],
+    delay: 4000,
     width: 980,
   },
   {
@@ -638,6 +645,7 @@ const siteActions = [
       "//div[@id='gdpr-module-group-understand-button']",
       "//a[text()='Stäng annons']",
       "//button[contains(@class,'button-hide')]",
+      "//div[contains(@class,'adnm-topscroll-text')]",
     ],
     removes: [
       "//div[@data-track-id='layout-item-0.panoramaAd']",
