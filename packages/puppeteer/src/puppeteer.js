@@ -322,7 +322,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
+// takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -331,7 +331,7 @@ takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
 // })();
 
 // withoutActions();
-// main();
+main();
 // imageFileStats();
 
 // Documentation
