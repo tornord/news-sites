@@ -1,4 +1,4 @@
-import React, { useState, useEffect, cloneElement, isValidElement } from "react";
+import React, { useState, useEffect, cloneElement, isValidElement, useMemo } from "react";
 import { useDrag } from "@use-gesture/react";
 import styled from "@emotion/styled";
 
@@ -7,16 +7,18 @@ import styled from "@emotion/styled";
 const { round } = Math;
 
 const IMAGES_BASE_URL = "http://localhost:3000";
-const THUMBNAIL_WIDTH = 80;
-const THUMBNAIL_HEIGHT = round((THUMBNAIL_WIDTH * 59) / 41);
 
-const StyledApp = styled.div(`
+const StyledApp = styled.div(({ highlightAnomalies = false }) => {
+  const THUMBNAIL_WIDTH = 160;
+  const THUMBNAIL_HEIGHT = round((THUMBNAIL_WIDTH * 59) / 41);
+  return `
   .swiper {
     touch-action: none;
   }
   
   .carousel {
     position: relative;
+    overflow: hidden;
 
     .slide {
       width: 100%;
@@ -48,6 +50,7 @@ const StyledApp = styled.div(`
   .carousel-thumbnails {
     display: flex;
     flex-wrap: wrap;
+    min-height: ${THUMBNAIL_HEIGHT}px;
 
     .slide {
       width: ${THUMBNAIL_WIDTH}px;
@@ -63,13 +66,18 @@ const StyledApp = styled.div(`
         border: 2px solid steelblue;        
       }
 
-      &.anomaly {
-        outline: ${2 + THUMBNAIL_WIDTH / 2}px solid rgba(255, 0, 0, 0.35);
+      ${
+        highlightAnomalies
+          ? `&.anomaly {
+        outline: ${2 + THUMBNAIL_WIDTH / 2}px solid rgba(255, 0, 0, 0.25);
         outline-offset: -${2 + THUMBNAIL_WIDTH / 2}px;
+      }`
+          : ""
       }
     }
   }
-`);
+`;
+});
 
 const { floor } = Math;
 
@@ -86,20 +94,56 @@ const SANDBOX_URLS = [
   "https://i.picsum.photos/id/369/820/1180.jpg?hmac=9HPUKwx7sADdaOlIjKJLM7ODChOD8_BTv-yk92siAc8",
 ];
 
-function Carousel({ index, urls }) {
+function randomId() {
+  return `${Math.floor(Math.random() * 16777216).toString(12)}`;
+}
+
+function Carousel({ index, urls, showThumbnails = false, onDrop = null }) {
+  const rndId = useMemo(() => randomId());
   const width = window.innerWidth;
   console.log("Gallery", index, width);
-  // "carousel-thumbnails"
+  const imgDragBind = { draggable: showThumbnails };
+  const carouselDropBind = {};
+  if (showThumbnails) {
+    imgDragBind.onDragStart = (ev) => {
+      console.log("onDragStart");
+      ev.dataTransfer.setData("application/carousel", ev.target.id);
+      ev.dataTransfer.effectAllowed = "move";
+    };
+    carouselDropBind.onDragOver = (ev) => {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
+    };
+    carouselDropBind.onDrop = (ev) => {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("application/carousel");
+      if (!data) return;
+      const currEl = document.getElementById(data);
+      if (!currEl) return;
+      let carEl = ev.target;
+      if (carEl.nodeName === "IMG") {
+        carEl = carEl.parentElement;
+      }
+      if (carEl === currEl.parentElement) return;
+      const el = carEl.appendChild(currEl);
+      if (!el) return;
+      if (onDrop) {
+        onDrop(el.src);
+      }
+    };
+  }
   return (
-    <div className="carousel" style={{ top: 0, left: 0 }}>
+    <div className={`carousel${showThumbnails ? "-thumbnails" : ""}`} style={{ top: 0, left: 0 }} {...carouselDropBind}>
       {/* {[-1, 0, 1].map((d, i) => (
         <img key={i} className={`slide${i === 0 ? " active" : ""}`} src={urls[(index + d + count) % count]} />
       ))} */}
       {urls.map((d, i) => (
         <img
+          id={`img-${rndId}-${i}`}
           key={i}
           className={`slide${i === index ? " active" : ""}${/\/anomalies\//.test(d) ? " anomaly" : ""}`}
           src={d}
+          {...imgDragBind}
         />
       ))}
     </div>
@@ -154,7 +198,7 @@ function Slider({ count, children }) {
   );
 }
 
-function App() {
+function SlideShow() {
   const [urls, setUrls] = useState([]);
   useEffect(() => {
     const url = new URL(window.location.search, IMAGES_BASE_URL).href;
@@ -164,15 +208,112 @@ function App() {
         setUrls(data.map((d) => new URL(d.url, IMAGES_BASE_URL).href));
       });
   }, []);
+  return urls && urls.length > 0 ? (
+    <Slider count={urls.length}>
+      <Carousel urls={urls} showThumbnails={false} />
+    </Slider>
+  ) : null;
+}
+
+const StyledList = styled.ul(() => {
+  return `
+    margin: 0.5rem 0;
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    flex-wrap: wrap;
+
+    li {
+      margin: 0 0.5rem;
+    }
+  `;
+});
+
+function List({ items, queryName }) {
+  const link = (v) => `/admin/?${queryName}=${v}`;
   return (
-    <StyledApp>
-      {urls && urls.length > 0 ? (
-        <Slider count={urls.length}>
-          <Carousel urls={urls} />
-        </Slider>
-      ) : null}
-    </StyledApp>
+    <StyledList>
+      {items.map((d, i) => (
+        <li key={i}>
+          <a href={link(d)}>{d}</a>
+        </li>
+      ))}
+    </StyledList>
   );
+}
+
+function Admin() {
+  const [images, setImages] = useState(null);
+  const [doneUrls, setDoneUrls] = useState(null);
+  const [anomaliesUrls, setAnomaliesUrls] = useState(null);
+  const [binUrls, setBinUrls] = useState(null);
+  const getArray = (images, key) => {
+    let arr = [];
+    if (images && images.length > 0) {
+      const dict = {};
+      for (const d of images) {
+        dict[d[key]] = true;
+      }
+      arr.push(...Object.keys(dict));
+      arr.sort();
+    }
+    return arr;
+  };
+  let names = getArray(images, "name");
+  let dates = getArray(images, "date");
+  const handleDrop = (url, folder) => {
+    fetch(new URL("move", IMAGES_BASE_URL).href, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url, folder }),
+    });
+    console.log("handleDrop", url, folder);
+  };
+  useEffect(() => {
+    const allImagesUrl = new URL("/?count=0", IMAGES_BASE_URL);
+    fetch(allImagesUrl.href)
+      .then((data) => data.json())
+      .then((data) => {
+        setImages(data);
+      });
+    const doFetch = (type, callback) => {
+      const url = new URL(window.location.search, IMAGES_BASE_URL);
+      url.searchParams.set("type", type);
+      fetch(url.href)
+        .then((data) => data.json())
+        .then((data) => {
+          const arr = data.map((d) => new URL(d.url, IMAGES_BASE_URL).href);
+          arr.sort();
+          callback(arr);
+        });
+    };
+    doFetch("done", setDoneUrls);
+    doFetch("anomalies", setAnomaliesUrls);
+    doFetch("bin", setBinUrls);
+  }, []);
+  return (
+    <>
+      {names.length > 0 ? <List items={names} queryName="name" /> : null}
+      {dates.length > 0 ? <List items={dates} queryName="date" /> : null}
+      {doneUrls !== null ? (
+        <Carousel urls={doneUrls} showThumbnails={true} onDrop={(ev) => handleDrop(ev, "done")} />
+      ) : null}
+      <hr />
+      {anomaliesUrls !== null ? (
+        <Carousel urls={anomaliesUrls} showThumbnails={true} onDrop={(ev) => handleDrop(ev, "anomalies")} />
+      ) : null}
+      <hr />
+      {binUrls !== null ? (
+        <Carousel urls={binUrls} showThumbnails={true} onDrop={(ev) => handleDrop(ev, "bin")} />
+      ) : null}
+    </>
+  );
+}
+
+function App() {
+  const [urls, setUrls] = useState([]);
+  const admin = window.location.pathname.startsWith("/admin/");
+  return <StyledApp highlightAnomalies={true}>{admin ? <Admin /> : <SlideShow />}</StyledApp>;
 }
 
 export default App;

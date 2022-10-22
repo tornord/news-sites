@@ -304,10 +304,11 @@ const siteActions = [
   {
     name: "repubblica.it",
     clicks: ["//button[text()='Accetta']"],
-    removes: ["//div[@id='adv-TopLeft']", "//div[child::a[child::div[@id='adv_Skin']]]"],
+    removes: ["//div[@id='adv-TopLeft']", "//div[child::a[child::div[@id='adv_Skin']]]", "//div[@id='adv-BoxP']"],
     styles: [
       // { xpath: "//div[@id='adv-TopLeft']", value: { display: "none !important" } },
       // { xpath: "//div[@class='gd-row'][1]", value: { "max-height": "42px" } },
+      // { xpath: "//div[@class='block__item']/article[contains(@class,'entry')]", value: { "margin-bottom": "0px" } },
     ],
   },
   {
