@@ -65,6 +65,7 @@ const sites = [
   // Ryssland
   { name: "The Moscow Times", url: "https://www.themoscowtimes.com/", country: "RU" },
   { name: "Pravda", url: "https://english.pravda.ru/", country: "RU" },
+  { name: "Meduza", url: "https://meduza.io/en", country: "RU" },
   // Denmark
   { name: "Ekstrabladet", url: "https://ekstrabladet.dk/", country: "DK" },
   { name: "BT", url: "https://bt.dk/", country: "DK" },

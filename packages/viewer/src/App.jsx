@@ -8,9 +8,8 @@ const { round } = Math;
 
 const IMAGES_BASE_URL = "http://localhost:3000";
 
-const StyledApp = styled.div(({ highlightAnomalies = false }) => {
-  const THUMBNAIL_WIDTH = 160;
-  const THUMBNAIL_HEIGHT = round((THUMBNAIL_WIDTH * 59) / 41);
+const StyledApp = styled.div(({ thumbnailWidth = 160, highlightAnomalies = false }) => {
+  const thumbnailHeight = round((thumbnailWidth * 59) / 41);
   return `
   .swiper {
     touch-action: none;
@@ -50,11 +49,11 @@ const StyledApp = styled.div(({ highlightAnomalies = false }) => {
   .carousel-thumbnails {
     display: flex;
     flex-wrap: wrap;
-    min-height: ${THUMBNAIL_HEIGHT}px;
+    min-height: ${thumbnailHeight}px;
 
     .slide {
-      width: ${THUMBNAIL_WIDTH}px;
-      height: ${THUMBNAIL_HEIGHT}px;
+      width: ${thumbnailWidth}px;
+      height: ${thumbnailHeight}px;
       border: 2px solid transparent;
       box-sizing: content-box;
 
@@ -69,8 +68,8 @@ const StyledApp = styled.div(({ highlightAnomalies = false }) => {
       ${
         highlightAnomalies
           ? `&.anomaly {
-        outline: ${2 + THUMBNAIL_WIDTH / 2}px solid rgba(255, 0, 0, 0.25);
-        outline-offset: -${2 + THUMBNAIL_WIDTH / 2}px;
+        outline: ${2 + thumbnailWidth / 2}px solid rgba(255, 0, 0, 0.25);
+        outline-offset: -${2 + thumbnailWidth / 2}px;
       }`
           : ""
       }
@@ -312,8 +311,25 @@ function Admin() {
 
 function App() {
   const [urls, setUrls] = useState([]);
+  const [thumbnailWidth, setThumbnailWidth] = useState(160);
   const admin = window.location.pathname.startsWith("/admin/");
-  return <StyledApp highlightAnomalies={true}>{admin ? <Admin /> : <SlideShow />}</StyledApp>;
+  return (
+    <StyledApp thumbnailWidth={thumbnailWidth} highlightAnomalies={true}>
+      <StyledList>
+        {[72, 80, 120, 160, 200, 405].map((d, i) => (
+          <li
+            key={i}
+            onClick={() => {
+              setThumbnailWidth(() => d);
+            }}
+          >
+            <a href="#">{d}</a>
+          </li>
+        ))}
+      </StyledList>
+      {admin ? <Admin /> : <SlideShow />}
+    </StyledApp>
+  );
 }
 
 export default App;

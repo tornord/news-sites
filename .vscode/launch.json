@@ -9,8 +9,9 @@
       "request": "launch",
       "name": "puppeteer",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/src/puppeteer.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+      "program": "${workspaceFolder}/packages/puppeteer/src/puppeteer.js",
+      "cwd": "${workspaceFolder}/packages/puppeteer",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.11.0/bin/node"
     },
     {
       "type": "node",
@@ -19,7 +20,7 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/packages/image-server/src/index.js",
       "cwd": "${workspaceFolder}/packages/image-server",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.11.0/bin/node"
     },
     {
       "type": "node",
@@ -27,7 +28,7 @@
       "name": "convertImages",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/convertImages.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.11.0/bin/node"
     },
     {
       "type": "node",
@@ -35,7 +36,7 @@
       "name": "randomImage",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/randomImage.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v16.15.1/bin/node"
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v18.11.0/bin/node"
     }
   ]
 }

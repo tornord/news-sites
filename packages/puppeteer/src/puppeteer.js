@@ -11,6 +11,8 @@ const { siteActions, iframeActions, defaultWidth, defaultDelay, defaultPostDelay
 const dateToString = (d) => d.toISOString().slice(0, 10);
 const today = () => dateToString(new Date());
 
+const IMAGE_PATH = resolve(".", "..", "..", "screenshots");
+
 function sha256(str) {
   return createHash("sha256").update(str).digest("hex");
 }
@@ -19,15 +21,16 @@ function getFilename(path, name, id) {
   let res;
   while (true) {
     res = `${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpg`;
-    if (!fs.existsSync(`${path}/done/${res}`) && !fs.existsSync(`${path}/anomalies/${res}`)) break;
+    const folders = ["done", "anomalies", "bin"];
+    if (folders.map((d) => fs.existsSync(join(path, d, res))).every((d) => !d)) break;
     id = id === null ? 0 : id + 1;
   }
-  return `${path}/${res}`;
+  return join(path, "done", res);
 }
 
 async function takeScreenshot(url, headless, id = null) {
   const date = today();
-  const path = `./screenshots/${date}`;
+  const path = join(IMAGE_PATH, date);
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path, { recursive: true });
   }
@@ -267,17 +270,16 @@ function getJpgFiles(path) {
 }
 
 async function imageFileStats() {
-  const imagePath = resolve(".", "screenshots");
-  const files = fs.readdirSync(imagePath);
+  const files = fs.readdirSync(IMAGE_PATH);
   const dones = [];
   const anomalies = [];
   for (const f of files) {
-    const s = fs.lstatSync(join(imagePath, f));
+    const s = fs.lstatSync(join(IMAGE_PATH, f));
     if (!s || !s.isDirectory()) continue;
     if (!/\d{4}-\d{2}-\d{2}/.test(f)) continue;
-    const fds = getJpgFiles(join(imagePath, f, "done"));
+    const fds = getJpgFiles(join(IMAGE_PATH, f, "done"));
     dones.push(...fds);
-    const fas = getJpgFiles(join(imagePath, f, "anomalies"));
+    const fas = getJpgFiles(join(IMAGE_PATH, f, "anomalies"));
     anomalies.push(...fas);
   }
   console.log("titels:", sites.length);
@@ -322,7 +324,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.cnbc.com/world/", true, 1);
+// takeScreenshotAsync("https://meduza.io/en", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);

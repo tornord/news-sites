@@ -439,6 +439,12 @@ const siteActions = [
     retryCount: 2,
     width: 1024,
   },
+  {
+    name: "meduza.io",
+    clicks: ["//button[@class='GDPRPanel-dismiss']"],
+    removes: ["//div[@class='Layout-bannerTop']"],
+    width: 1024,
+  },
   { name: "vg.no", removes: ["//div[@id='advert-topboard']"], width: 1010 },
   { name: "dagbladet.no", clicks: ["//button[text()='Jeg forstår']"], removes: ["//div[@id='ad-topbanner1']"] },
   {
