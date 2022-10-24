@@ -324,7 +324,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://meduza.io/en", true, 1);
+// takeScreenshotAsync("https://deadline.com/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);

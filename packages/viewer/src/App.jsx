@@ -6,9 +6,10 @@ import styled from "@emotion/styled";
 
 const { round } = Math;
 
-const IMAGES_BASE_URL = "http://localhost:3000";
+// const IMAGES_BASE_URL = "http://localhost:3000";
+const IMAGES_BASE_URL = "http://192.168.1.121:3000";
 
-const StyledApp = styled.div(({ thumbnailWidth = 160, highlightAnomalies = false }) => {
+const StyledApp = styled.div(({ thumbnailWidth = 160, highlight = false }) => {
   const thumbnailHeight = round((thumbnailWidth * 59) / 41);
   return `
   .swiper {
@@ -66,11 +67,16 @@ const StyledApp = styled.div(({ thumbnailWidth = 160, highlightAnomalies = false
       }
 
       ${
-        highlightAnomalies
-          ? `&.anomaly {
-        outline: ${2 + thumbnailWidth / 2}px solid rgba(255, 0, 0, 0.25);
-        outline-offset: -${2 + thumbnailWidth / 2}px;
-      }`
+        highlight
+          ? `
+          &.anomaly {
+            outline: ${2 + thumbnailWidth / 2}px solid rgba(255, 0, 0, 0.25);
+            outline-offset: -${2 + thumbnailWidth / 2}px;
+          }
+          &.bin {
+            outline: ${2 + thumbnailWidth / 2}px solid rgba(0, 0, 0, 0.3);
+            outline-offset: -${2 + thumbnailWidth / 2}px;
+          }`
           : ""
       }
     }
@@ -131,6 +137,11 @@ function Carousel({ index, urls, showThumbnails = false, onDrop = null }) {
       }
     };
   }
+  const highlightClasses = (url) => {
+    if (/\/anomalies\//.test(url)) return ["anomaly"];
+    if (/\/bin\//.test(url)) return ["bin"];
+    return [];
+  };
   return (
     <div className={`carousel${showThumbnails ? "-thumbnails" : ""}`} style={{ top: 0, left: 0 }} {...carouselDropBind}>
       {/* {[-1, 0, 1].map((d, i) => (
@@ -140,7 +151,7 @@ function Carousel({ index, urls, showThumbnails = false, onDrop = null }) {
         <img
           id={`img-${rndId}-${i}`}
           key={i}
-          className={`slide${i === index ? " active" : ""}${/\/anomalies\//.test(d) ? " anomaly" : ""}`}
+          className={["slide", ...(i === index ? ["active"] : []), ...highlightClasses(d)].join(" ")}
           src={d}
           {...imgDragBind}
         />
@@ -314,20 +325,26 @@ function App() {
   const [thumbnailWidth, setThumbnailWidth] = useState(160);
   const admin = window.location.pathname.startsWith("/admin/");
   return (
-    <StyledApp thumbnailWidth={thumbnailWidth} highlightAnomalies={true}>
-      <StyledList>
-        {[72, 80, 120, 160, 200, 405].map((d, i) => (
-          <li
-            key={i}
-            onClick={() => {
-              setThumbnailWidth(() => d);
-            }}
-          >
-            <a href="#">{d}</a>
-          </li>
-        ))}
-      </StyledList>
-      {admin ? <Admin /> : <SlideShow />}
+    <StyledApp thumbnailWidth={thumbnailWidth} highlight={true}>
+      {admin ? (
+        <>
+          <StyledList>
+            {[72, 80, 120, 160, 200, 405].map((d, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  setThumbnailWidth(() => d);
+                }}
+              >
+                <a href="#">{d}</a>
+              </li>
+            ))}
+          </StyledList>
+          <Admin />
+        </>
+      ) : (
+        <SlideShow />
+      )}
     </StyledApp>
   );
 }

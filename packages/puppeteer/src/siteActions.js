@@ -121,12 +121,12 @@ const siteActions = [
       "//div[child::div[child::div[@data-testid='response-snackbar']]]",
       "//div[child::div[child::div[@data-testid='StandardAd'][child::div[contains(@class,'dfp-ad-top-wrapper')]]]]",
     ],
-    // retryCount: 2,
   },
   {
     name: "edition.cnn.com",
     clicks: ["//button[text()='Accept All']"],
     removes: ["//div[@id='header-wrap']"],
+    delay: 4000,
     width: 960,
   },
   { name: "foxnews.com", clicks: ["//div[@aria-label='Close']"], removes: ["//div[contains(@class,'ad-container')]"] },
@@ -208,6 +208,14 @@ const siteActions = [
     removes: ["//div[@id='onetrust-consent-sdk']", "//div[contains(@class,'ad-stickyhero')]"],
     width: 1024,
     desktopWidth: 1024,
+  },
+  {
+    name: "deadline.com",
+    clicks: ["//button[text()='Accept All']"],
+    removes: ["//div[contains(@class,'above-header-ad')]", "//a[text()='Skip to main content']"],
+    postDelay: 4000,
+    width: 1000,
+    desktopWidth: 1000,
   },
   {
     name: "hbl.fi",

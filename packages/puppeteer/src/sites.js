@@ -12,6 +12,7 @@ const sites = [
   // USA
   { name: "Washington Post", url: "https://washingtonpost.com/", country: "US" },
   { name: "NY Times", url: "https://nytimes.com/", country: "US" },
+  { name: "CNN", url: "https://edition.cnn.com/", country: "US" },
   { name: "Fox News", url: "https://foxnews.com/", country: "US" },
   { name: "The Wall Street Journal", url: "https://wsj.com/", country: "US" },
   { name: "AP News", url: "https://apnews.com/", country: "US" },
@@ -25,6 +26,7 @@ const sites = [
   { name: "Reuters", url: "https://www.reuters.com/", country: "US" },
   { name: "Politico", url: "https://www.politico.eu/", country: "US" },
   { name: "Vanity Fair", url: "https://www.vanityfair.com/", country: "US" },
+  { name: "Deadline", url: "https://deadline.com/", country: "US" },
   // NL
   { name: "Telegraaf", url: "https://telegraaf.nl/", country: "NL" },
   { name: "AD", url: "https://ad.nl/", country: "NL" },
