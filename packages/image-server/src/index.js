@@ -75,9 +75,9 @@ app.use(bodyParser.json({ type: "application/json" }));
 
 app.get("/", (req, res) => {
   const name = req.query.name ?? null;
-  const type = req.query.type ?? "done";
-  const date = req.query.date ?? dateToString(new Date());
-  const count = req.query.count ?? 120;
+  const type = req.query.date !== "today" ? req.query.type ?? "done" : req.query.type ?? null;
+  const date = req.query.date !== "today" ? req.query.date ?? null : dateToString(new Date());
+  const count = req.query.count ?? 0;
   res.send(getImages(name, type, date, count));
 });
 

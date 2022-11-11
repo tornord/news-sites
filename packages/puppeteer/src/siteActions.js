@@ -38,7 +38,7 @@ const siteActions = [
   },
   {
     name: "mirror.co.uk",
-    clicks: ["//button[text()='I accept']"],
+    clicks: ["//button/span[text()='I accept']"],
     removes: [
       "//reach-billboard[contains(@class,'ad-placeholder--top')]",
       "//reach-billboard[contains(@class,'ad-placeholder--bottom')]",
@@ -126,7 +126,8 @@ const siteActions = [
     name: "edition.cnn.com",
     clicks: ["//button[text()='Accept All']"],
     removes: ["//div[@id='header-wrap']"],
-    delay: 4000,
+    delay: 3000,
+    retryCount: 2,
     width: 960,
   },
   { name: "foxnews.com", clicks: ["//div[@aria-label='Close']"], removes: ["//div[contains(@class,'ad-container')]"] },
@@ -483,6 +484,26 @@ const siteActions = [
     delay: 3500,
   },
   {
+    name: "dn.no",
+    clicks: [
+      "//button[@id='onetrust-accept-btn-handler'][text()='OK, Skjønner']",
+      "//div[contains(@class,'adnm-scroll-down-btn')]",
+    ],
+    removes: [
+      "//div[@id='googlead-toppbanner']",
+      "//div[child::div[child::div[@data-placeholder='lantern_placeholder_subscriber-engagement']]]",
+    ],
+    retryCount: 2,
+    styles: [
+      {
+        xpath: "//div[contains(@class,'front')]/div[contains(@class,'dre-group')][1]",
+        value: { "margin-top": "20px" },
+      },
+    ],
+    scrolls: [200, 0],
+    width: 1012,
+  },
+  {
     name: "zeit.de",
     clicks: ["//button[contains(@class,'paywall-footer__btn-close')]"],
     removes: ["//div[@data-ct-area='topnav-sticky']"],
@@ -790,7 +811,7 @@ const siteActions = [
   },
   {
     name: "svt.se",
-    clicks: ["//input[@value='Jag förstår']"],
+    clicks: ["//button[text()='Acceptera alla']"],
   },
   {
     name: "nzz.ch",

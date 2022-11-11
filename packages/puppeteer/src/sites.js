@@ -82,6 +82,7 @@ const sites = [
   { name: "Nettavisen", url: "https://nettavisen.no/", country: "NO" },
   { name: "E24", url: "https://e24.no/", country: "NO" },
   { name: "Finansavisen", url: "https://finansavisen.no/", country: "NO" },
+  { name: "Dagens Næringsliv", url: "https://dn.no/", country: "NO" },
   // Island
   { url: "https://www.mbl.is/frettir/", country: "IS" },
   // Sverige

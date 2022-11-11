@@ -6,8 +6,8 @@ import styled from "@emotion/styled";
 
 const { round } = Math;
 
-// const IMAGES_BASE_URL = "http://localhost:3000";
-const IMAGES_BASE_URL = "http://192.168.1.121:3000";
+const IMAGES_BASE_URL = "http://localhost:3000";
+// const IMAGES_BASE_URL = "http://192.168.1.121:3000";
 
 const StyledApp = styled.div(({ thumbnailWidth = 160, highlight = false }) => {
   const thumbnailHeight = round((thumbnailWidth * 59) / 41);
@@ -211,8 +211,17 @@ function Slider({ count, children }) {
 function SlideShow() {
   const [urls, setUrls] = useState([]);
   useEffect(() => {
-    const url = new URL(window.location.search, IMAGES_BASE_URL).href;
-    fetch(url)
+    const url = new URL(window.location.search, IMAGES_BASE_URL);
+    if (!url.searchParams.get("count")) {
+      url.searchParams.set("count", 30);
+    }
+    if (!url.searchParams.get("type")) {
+      url.searchParams.set("type", "done");
+    }
+    if (!url.searchParams.get("date")) {
+      url.searchParams.set("date", "today");
+    }
+    fetch(url.href)
       .then((data) => data.json())
       .then((data) => {
         setUrls(data.map((d) => new URL(d.url, IMAGES_BASE_URL).href));

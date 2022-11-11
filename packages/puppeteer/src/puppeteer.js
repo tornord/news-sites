@@ -17,7 +17,7 @@ function sha256(str) {
   return createHash("sha256").update(str).digest("hex");
 }
 
-function getFilename(path, name, id) {
+function getFilename(path, name, id, folders = ["done"]) {
   let res;
   while (true) {
     res = `${name}${id !== null ? `_${String(id + 1).padStart(2, "0")}` : ""}.jpg`;
@@ -25,7 +25,7 @@ function getFilename(path, name, id) {
     if (folders.map((d) => fs.existsSync(join(path, d, res))).every((d) => !d)) break;
     id = id === null ? 0 : id + 1;
   }
-  return join(path, "done", res);
+  return join(path, ...folders, res);
 }
 
 async function takeScreenshot(url, headless, id = null) {
@@ -241,7 +241,7 @@ async function takeScreenshot(url, headless, id = null) {
       postDelay = action.postDelay;
     }
     await sleep(postDelay);
-    const filename = getFilename(path, name, id);
+    const filename = getFilename(path, name, id, headless ? ["done"] : []);
     await page.screenshot({ path: filename, quality: 80, captureBeyondViewport: false }); // fromSurface: false, // headful only
     console.log("done!", Date.now() - t0);
   } catch (error) {
@@ -324,7 +324,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://deadline.com/", true, 1);
+// takeScreenshotAsync("https://www.svt.se/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
