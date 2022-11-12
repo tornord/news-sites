@@ -110,6 +110,7 @@ const sites = [
   { name: "Dala-Demokraten", url: "https://www.dalademokraten.se/", country: "SE" },
   { name: "Helsingborgs Dagblad", url: "https://www.hd.se/", country: "SE" },
   { name: "Sundsvalls Tidning", url: "https://www.st.nu/", country: "SE" },
+  { name: "Östgöta Correspondenten", url: "https://corren.se/", country: "SE" },
   // Brasilien
   { name: "Globo", url: "https://www.globo.com/", country: "BR" },
   // Argentina

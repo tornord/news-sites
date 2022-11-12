@@ -814,6 +814,18 @@ const siteActions = [
     clicks: ["//button[text()='Acceptera alla']"],
   },
   {
+    name: "corren.se",
+    clicks: [
+      "//div[contains(@class,'adnm-scroll-down-btn')]",
+      "//div[text()='Continue to  corren.se']",
+      "//div[@class='subscribe-footer-content-container']",
+    ],
+    removes: ["//iris-content-outlet/ad-block-2", "//div[@class='subscribe-footer-content-container']"],
+    retryCount: 2,
+    delay: 3000,
+    width: 1029,
+  },
+  {
     name: "nzz.ch",
     clicks: ["//span[text()='Alle Akzeptieren']", "//span[@type='close'][@role='button']"],
     removes: ["//div[contains(@class,'resor--maxiboard')]", "//div[child::iframe[@data-test-id='banner-frame']]"],
@@ -880,7 +892,11 @@ const siteActions = [
   {
     name: "bangkokpost.com",
     clicks: ["//a[text()='Accept and close']"],
-    removes: ["//div[contains(@class,'ads-leaderboard')]"],
+    removes: [
+      "//div[contains(@class,'ads-leaderboard')]",
+      "//div[contains(@class,'sp-fancybox-wrap')]",
+      "//div[contains(@class,'sp-fancybox-overlay')]",
+    ],
     width: 992,
     desktopWidth: 992,
   },
@@ -989,6 +1005,7 @@ const iframeActions = [
   { name: "cmp-consent-tool.privacymanager.io", clicks: ["//div[child::span[text()='Accept All']]"] },
   { name: "cmp.politico.eu", clicks: ["//button[text()='Agree']"] },
   { name: "cmp-sp.tagesspiegel.de", clicks: ["//button[text()='Alle akzeptieren']"] },
+  { name: "consent.corren.se", clicks: ["//button[text()='Jag godkänner']"] },
 ];
 
 if (typeof module !== "undefined") {
