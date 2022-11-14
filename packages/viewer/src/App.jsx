@@ -211,7 +211,7 @@ function Slider({ count, children }) {
 function SlideShow() {
   const [urls, setUrls] = useState([]);
   useEffect(() => {
-    const url = new URL(window.location.search, IMAGES_BASE_URL);
+    const url = new URL(window.location.search, `${IMAGES_BASE_URL}/search`);
     if (!url.searchParams.get("count")) {
       url.searchParams.set("count", 30);
     }
@@ -289,14 +289,14 @@ function Admin() {
     console.log("handleDrop", url, folder);
   };
   useEffect(() => {
-    const allImagesUrl = new URL("/?count=0", IMAGES_BASE_URL);
+    const allImagesUrl = new URL("?count=0", `${IMAGES_BASE_URL}/search`);
     fetch(allImagesUrl.href)
       .then((data) => data.json())
       .then((data) => {
         setImages(data);
       });
     const doFetch = (type, callback) => {
-      const url = new URL(window.location.search, IMAGES_BASE_URL);
+      const url = new URL(window.location.search, `${IMAGES_BASE_URL}/search`);
       url.searchParams.set("type", type);
       fetch(url.href)
         .then((data) => data.json())

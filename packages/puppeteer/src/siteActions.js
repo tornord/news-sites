@@ -419,7 +419,11 @@ const siteActions = [
   {
     name: "eluniversal.com.mx",
     clicks: ["//button[text()='Acepto']"],
-    removes: ["//div[@id='dfp-top']", "//div[@id='dfp-ad-portada_desk_bottom1-wrapper']"],
+    removes: [
+      "//div[@id='dfp-top']",
+      "//div[@id='dfp-ad-portada_desk_bottom1-wrapper']",
+      "//div[@id='dfp-ad-portada_takeover-wrapper']",
+    ],
     retryCount: 2,
     // delay: 4000,
     // postDelay: 8000,

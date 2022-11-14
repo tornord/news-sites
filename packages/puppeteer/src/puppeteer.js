@@ -290,16 +290,16 @@ async function imageFileStats() {
 async function main() {
   const arr = sites.map((_, i) => i);
   shuffle(arr);
-  await PromisePool.for(arr)
-    .withConcurrency(1)
-    .process(async (i) => {
-      const { url } = sites[i];
-      await takeScreenshot(url, true);
-    });
-  // for (const i of arr) {
-  //   const { url } = sites[i];
-  //   await takeScreenshot(url, true);
-  // }
+  // await PromisePool.for(arr)
+  //   .withConcurrency(2)
+  //   .process(async (i) => {
+  //     const { url } = sites[i];
+  //     await takeScreenshot(url, true);
+  //   });
+  for (const i of arr) {
+    const { url } = sites[i];
+    await takeScreenshot(url, true);
+  }
 }
 
 async function takeScreenshotAsync(url, headless, count = 1) {
@@ -324,7 +324,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://corren.se/nyheter", true, 1);
+// takeScreenshotAsync("https://www.eluniversal.com.mx/", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);

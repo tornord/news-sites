@@ -10,6 +10,7 @@ const today = () => dateToString(new Date());
 const MS_PER_DAY = 24 * 3600 * 1000;
 
 const IMAGE_PATH = resolve(".", "..", "..", "screenshots");
+const VIEWER_DIST_PATH = resolve(".", "..", "viewer", "dist");
 const PORT = 3000;
 
 function shuffle(array) {
@@ -73,7 +74,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ type: "application/json" }));
 
-app.get("/", (req, res) => {
+app.get("/search", (req, res) => {
   const name = req.query.name ?? null;
   const type = req.query.date !== "today" ? req.query.type ?? "done" : req.query.type ?? null;
   const date = req.query.date !== "today" ? req.query.date ?? null : dateToString(new Date());
@@ -108,5 +109,8 @@ app.post("/move", (req, res) => {
 });
 
 app.use("/images", express.static(IMAGE_PATH));
+
+app.use("/admin", express.static(VIEWER_DIST_PATH));
+app.use("/", express.static(VIEWER_DIST_PATH));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
