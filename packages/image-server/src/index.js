@@ -11,7 +11,7 @@ const MS_PER_DAY = 24 * 3600 * 1000;
 
 const IMAGE_PATH = resolve(".", "..", "..", "screenshots");
 const VIEWER_DIST_PATH = resolve(".", "..", "viewer", "dist");
-const PORT = 3000;
+const PORT = 3001;
 
 function shuffle(array) {
   const n = array.length;

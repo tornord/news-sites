@@ -86,7 +86,7 @@ async function takeScreenshot(url, headless, id = null) {
     // });
 
     await page.setUserAgent(
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
     );
     await page.setExtraHTTPHeaders({
       // "sec-ch-ua": '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
@@ -324,7 +324,7 @@ async function withoutActions() {
 }
 
 // console.log(sites.length);
-// takeScreenshotAsync("https://www.eluniversal.com.mx/", true, 1);
+// takeScreenshotAsync("https://corren.se/nyheter", true, 1);
 
 // (async () => {
 //   await takeScreenshotAsync("https://www.lastampa.it/", true, 1);
@@ -413,3 +413,6 @@ main();
 
 // Links Awesome Puppeteer
 // https://github.com/transitive-bullshit/awesome-puppeteer
+
+// Chrome Flags for Tooling
+// https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md#test--debugging-flags

@@ -213,7 +213,7 @@ const siteActions = [
   {
     name: "deadline.com",
     clicks: ["//button[text()='Accept All']"],
-    removes: ["//div[contains(@class,'above-header-ad')]", "//a[text()='Skip to main content']"],
+    removes: ["//div[contains(@class,'above-header-ad')]", "//a[text()='Skip to main content']", "//div[@id='pmc-adm-interrupts-container']"],
     postDelay: 4000,
     width: 1000,
     desktopWidth: 1000,
@@ -824,7 +824,11 @@ const siteActions = [
       "//div[text()='Continue to  corren.se']",
       "//div[@class='subscribe-footer-content-container']",
     ],
-    removes: ["//iris-content-outlet/ad-block-2", "//div[@class='subscribe-footer-content-container']"],
+    removes: [
+      "//iris-content-outlet/ad-block-2",
+      "//div[@class='subscribe-footer-content-container']",
+      "//iris-news-page-flex/ad-full-page-block",
+    ],
     retryCount: 2,
     delay: 3000,
     width: 1029,
